@@ -12,16 +12,20 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   const navigationItems = [
-    { icon: Home, label: "Feed", active: true },
-    { icon: Calendar, label: "Events" },
-    { icon: Users, label: "Community" },
-    { icon: BookOpen, label: "Learning" },
-    { icon: Heart, label: "Charity" },
-    { icon: MessageCircle, label: "Messages" },
-    { icon: Compass, label: "Discover" },
+    { icon: Home, label: "Feed", path: "/" },
+    { icon: Calendar, label: "Events", path: "/events" },
+    { icon: Users, label: "Community", path: "/community" },
+    { icon: BookOpen, label: "Learning", path: "/learning" },
+    { icon: Heart, label: "Charity", path: "/charity" },
+    { icon: MessageCircle, label: "Messages", path: "/messages" },
+    { icon: Compass, label: "Discover", path: "/discover" },
   ];
 
   const prayerTimes = [
@@ -40,8 +44,9 @@ const Sidebar = () => {
           {navigationItems.map((item) => (
             <Button
               key={item.label}
-              variant={item.active ? "spiritual" : "ghost"}
+              variant={location.pathname === item.path ? "spiritual" : "ghost"}
               className="w-full justify-start h-11"
+              onClick={() => navigate(item.path)}
             >
               <item.icon className="w-5 h-5 mr-3" />
               {item.label}
