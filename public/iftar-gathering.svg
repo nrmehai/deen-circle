@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Table -->
+  <rect x="10" y="60" width="80" height="10" fill="#4A5568" rx="2"/>
+  <!-- Plates -->
+  <circle cx="30" cy="55" r="12" fill="#F7FAFC"/>
+  <circle cx="30" cy="55" r="10" fill="#E2E8F0"/>
+  <circle cx="70" cy="55" r="12" fill="#F7FAFC"/>
+  <circle cx="70" cy="55" r="10" fill="#E2E8F0"/>
+  <!-- Food Items -->
+  <path d="M25 52 Q30 48 35 52" stroke="#4A5568" stroke-width="2" fill="none"/>
+  <path d="M65 52 Q70 48 75 52" stroke="#4A5568" stroke-width="2" fill="none"/>
+  <!-- Dates -->
+  <circle cx="50" cy="40" r="5" fill="#8B4513"/>
+  <circle cx="40" cy="45" r="5" fill="#8B4513"/>
+  <circle cx="60" cy="45" r="5" fill="#8B4513"/>
+  <!-- Water Glass -->
+  <path d="M45 25 L42 40 L48 40 L45 25" fill="#BEE3F8"/>
+  <line x1="42" y1="40" x2="48" y2="40" stroke="#4299E1" stroke-width="1"/>
+  <!-- Decorative Elements -->
+  <path d="M15 70 L85 70" stroke="#2D3748" stroke-width="1"/>
+  <path d="M20 65 L80 65" stroke="#2D3748" stroke-width="1" stroke-dasharray="2,2"/>
+</svg>

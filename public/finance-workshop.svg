@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect x="10" y="10" width="80" height="80" fill="#F7FAFC" rx="5"/>
+  <!-- Graph Lines -->
+  <path d="M20 70 L40 50 L60 60 L80 30" stroke="#4C51BF" stroke-width="2" fill="none"/>
+  <!-- Currency Symbols -->
+  <text x="25" y="40" font-family="Arial" font-size="12" fill="#2D3748">$</text>
+  <text x="45" y="65" font-family="Arial" font-size="12" fill="#2D3748">€</text>
+  <text x="65" y="45" font-family="Arial" font-size="12" fill="#2D3748">£</text>
+  <!-- Calculator Icon -->
+  <rect x="70" y="60" width="20" height="25" fill="#E2E8F0" rx="2"/>
+  <rect x="73" y="65" width="14" height="5" fill="#A0AEC0"/>
+  <circle cx="75" cy="75" r="2" fill="#718096"/>
+  <circle cx="80" cy="75" r="2" fill="#718096"/>
+  <circle cx="85" cy="75" r="2" fill="#718096"/>
+  <circle cx="75" cy="80" r="2" fill="#718096"/>
+  <circle cx="80" cy="80" r="2" fill="#718096"/>
+  <circle cx="85" cy="80" r="2" fill="#718096"/>
+</svg>

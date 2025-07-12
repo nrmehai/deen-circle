@@ -2,8 +2,10 @@ import { Calendar, MapPin, Users, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 interface EventCardProps {
+  id?: string;
   title: string;
   description: string;
   date: string;
@@ -16,6 +18,7 @@ interface EventCardProps {
 }
 
 const EventCard = ({ 
+  id = '1',
   title, 
   description, 
   date, 
@@ -26,6 +29,8 @@ const EventCard = ({
   category,
   image 
 }: EventCardProps) => {
+  const navigate = useNavigate();
+
   const getCategoryColor = () => {
     switch (category) {
       case 'prayer':
@@ -45,56 +50,62 @@ const EventCard = ({
     }
   };
 
+  const handleCardClick = () => {
+    navigate(`/events/${id}`);
+  };
+
+  const handleInterestClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click when clicking the button
+    navigate(`/events/${id}`);
+  };
+
   return (
-    <Card className="bg-card shadow-soft border-border hover:shadow-elevated transition-all duration-300 overflow-hidden">
-      {/* Event Image */}
-      {image && (
-        <div className="h-32 bg-gradient-primary overflow-hidden">
-          <img 
-            src={image} 
-            alt={title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      )}
-      
+    <Card 
+      className="overflow-hidden cursor-pointer transition-transform hover:scale-[1.02] hover:shadow-lg" 
+      onClick={handleCardClick}
+    >
+      <div className="relative h-48 overflow-hidden">
+        <img 
+          src={image} 
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+        <Badge 
+          className={`absolute top-4 right-4 ${getCategoryColor()}`}
+        >
+          {category}
+        </Badge>
+      </div>
       <div className="p-4">
-        {/* Category Badge */}
-        <div className="mb-3">
-          <Badge className={`${getCategoryColor()} capitalize`}>
-            {category}
-          </Badge>
-        </div>
-
-        {/* Event Title & Description */}
-        <h3 className="font-semibold text-foreground mb-2 line-clamp-2">{title}</h3>
-        <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{description}</p>
-
-        {/* Event Details */}
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Calendar className="w-4 h-4 mr-2 text-primary" />
+        <h3 className="text-lg font-semibold mb-2">{title}</h3>
+        <p className="text-muted-foreground text-sm mb-4">{description}</p>
+        
+        <div className="space-y-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4" />
             <span>{date}</span>
           </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Clock className="w-4 h-4 mr-2 text-primary" />
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
             <span>{time}</span>
           </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <MapPin className="w-4 h-4 mr-2 text-primary" />
-            <span className="line-clamp-1">{location}</span>
+          <div className="flex items-center gap-2">
+            <MapPin className="h-4 w-4" />
+            <span>{location}</span>
           </div>
-          <div className="flex items-center text-sm text-muted-foreground">
-            <Users className="w-4 h-4 mr-2 text-primary" />
-            <span>{attendees} attending</span>
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            <span>{attendees} interested</span>
           </div>
         </div>
 
-        {/* Organizer & Action */}
-        <div className="flex items-center justify-between pt-3 border-t border-border">
-          <span className="text-sm text-muted-foreground">by {organizer}</span>
-          <Button variant="spiritual" size="sm">
-            Attend
+        <div className="mt-4 flex justify-between items-center">
+          <span className="text-sm font-medium">{organizer}</span>
+          <Button 
+            variant="secondary"
+            onClick={handleInterestClick}
+          >
+            Interested
           </Button>
         </div>
       </div>
