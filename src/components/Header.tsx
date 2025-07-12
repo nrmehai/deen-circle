@@ -1,8 +1,14 @@
-import { Moon, User, Bell, Search, Calendar, MapPin } from "lucide-react";
+import { Moon, User, Bell, Search, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { LocationPicker } from "./LocationPicker";
 
 const Header = () => {
+  const handleLocationSelect = (location: { lat: number; lng: number; radius: number }) => {
+    console.log("Selected location:", location);
+    // Handle the selected location and radius here
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur border-b border-border shadow-soft">
       <div className="container mx-auto px-4 py-3">
@@ -26,20 +32,17 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Navigation Icons */}
+          {/* Actions */}
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="icon" className="relative">
-              <Calendar className="w-5 h-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="relative">
-              <MapPin className="w-5 h-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full text-xs"></span>
+            <LocationPicker onLocationSelect={handleLocationSelect} />
+            <Button variant="ghost" size="icon">
+              <Calendar className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="icon">
-              <User className="w-5 h-5" />
+              <Bell className="h-5 w-5" />
+            </Button>
+            <Button variant="ghost" size="icon">
+              <User className="h-5 w-5" />
             </Button>
           </div>
         </div>
