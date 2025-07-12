@@ -44,9 +44,14 @@ const Header = () => {
               <Button variant="ghost" size="icon">
                 <Bell className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="icon">
-                <User className="h-5 w-5" />
-              </Button>
+
+
+              {/*Profile Button */}
+            <Button variant="ghost" size="icon" onClick={() => {
+              window.location.href = '/profile'; 
+              }}>
+                <User className="profile" />
+            </Button>
             </div>
           </div>
           

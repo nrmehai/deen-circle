@@ -10,6 +10,8 @@ import Charity from "./pages/Charity";
 import Messages from "./pages/Messages";
 import Discover from "./pages/Discover";
 import NotFound from "./pages/NotFound";
+import Community from "./pages/Community";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ const App = () => (
           <Route path="/charity" element={<Charity />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/discover" element={<Discover />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
