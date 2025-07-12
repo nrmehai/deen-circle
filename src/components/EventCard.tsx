@@ -11,7 +11,7 @@ interface EventCardProps {
   location: string;
   organizer: string;
   attendees: number;
-  category: 'prayer' | 'lecture' | 'social' | 'charity' | 'education' | 'community';
+  category: 'prayer' | 'lecture' | 'social' | 'charity' | 'education';
   image?: string;
 }
 
@@ -38,8 +38,6 @@ const EventCard = ({
         return 'bg-destructive text-destructive-foreground';
       case 'education':
         return 'bg-primary-glow text-primary-foreground';
-      case 'community':
-        return 'bg-accent text-accent-foreground';
       default:
         return 'bg-muted text-muted-foreground';
     }
