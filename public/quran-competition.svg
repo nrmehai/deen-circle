@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Book Base -->
+  <path d="M20 30 L50 20 L80 30 L80 70 L50 80 L20 70 Z" fill="#4A5568"/>
+  <!-- Book Pages -->
+  <path d="M50 20 L50 80 L20 70 L20 30 Z" fill="#F7FAFC"/>
+  <path d="M50 20 L50 80 L80 70 L80 30 Z" fill="#E2E8F0"/>
+  <!-- Arabic Text Lines (Stylized) -->
+  <path d="M30 40 L45 37" stroke="#2D3748" stroke-width="1"/>
+  <path d="M30 45 L45 42" stroke="#2D3748" stroke-width="1"/>
+  <path d="M30 50 L45 47" stroke="#2D3748" stroke-width="1"/>
+  <path d="M55 37 L70 40" stroke="#2D3748" stroke-width="1"/>
+  <path d="M55 42 L70 45" stroke="#2D3748" stroke-width="1"/>
+  <path d="M55 47 L70 50" stroke="#2D3748" stroke-width="1"/>
+  <!-- Decorative Elements -->
+  <path d="M25 35 C35 32 45 30 50 30 C55 30 65 32 75 35" fill="none" stroke="#A0AEC0" stroke-width="1"/>
+  <!-- Trophy Icon -->
+  <path d="M45 60 L55 60 L53 70 L47 70 Z" fill="#F6E05E"/>
+  <path d="M48 55 L52 55 L52 60 L48 60 Z" fill="#F6E05E"/>
+  <circle cx="50" cy="53" r="3" fill="#F6E05E"/>
+</svg>
