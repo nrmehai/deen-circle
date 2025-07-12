@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { GoogleMap, Circle, useJsApiLoader } from '@react-google-maps/api';
 
 interface LocationPickerProps {
-  onLocationSelect: (location: { lat: number; lng: number; radius: number }) => void;
+  onLocationSelect: (location: { lat: number; lng: number; radius: number; address: string }) => void;
 }
 
 const defaultCenter = {
@@ -27,33 +27,57 @@ export function LocationPicker({ onLocationSelect }: LocationPickerProps) {
   const [center, setCenter] = React.useState(defaultCenter);
   const [map, setMap] = React.useState<google.maps.Map | null>(null);
   const [loadError, setLoadError] = React.useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
 
   const { isLoaded, loadError: jsApiLoadError } = useJsApiLoader({
     googleMapsApiKey: API_KEY,
     version: "weekly"
   });
 
-  React.useEffect(() => {
-    if (jsApiLoadError) {
-      console.error('Google Maps loading error:', jsApiLoadError);
-      setLoadError('Failed to load Google Maps');
+  const geocoder = React.useMemo(() => isLoaded ? new google.maps.Geocoder() : null, [isLoaded]);
+
+  const getAddressFromLatLng = async (lat: number, lng: number) => {
+    if (!geocoder) return '';
+    
+    try {
+      const response = await geocoder.geocode({
+        location: { lat, lng }
+      });
+      
+      if (response.results[0]) {
+        let city = '';
+        let state = '';
+        
+        for (const component of response.results[0].address_components) {
+          if (component.types.includes('locality')) {
+            city = component.short_name;
+          } else if (component.types.includes('administrative_area_level_1')) {
+            state = component.short_name;
+          }
+        }
+        
+        return city && state ? `${city}, ${state}` : response.results[0].formatted_address;
+      }
+      return '';
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      return '';
     }
-  }, [jsApiLoadError]);
+  };
 
   const handleGetCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const newCenter = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
           setCenter(newCenter);
           
-          // Center the map on the new location with animation
           if (map) {
             map.panTo(newCenter);
-            map.setZoom(15); // Zoom in closer to show the area better
+            map.setZoom(15);
           }
         },
         (error) => {
@@ -61,9 +85,9 @@ export function LocationPicker({ onLocationSelect }: LocationPickerProps) {
           setLoadError('Failed to get current location: ' + error.message);
         },
         {
-          enableHighAccuracy: true, // Request high accuracy
-          timeout: 5000, // Wait up to 5 seconds
-          maximumAge: 0 // Always get a fresh position
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
         }
       );
     } else {
@@ -81,11 +105,14 @@ export function LocationPicker({ onLocationSelect }: LocationPickerProps) {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const address = await getAddressFromLatLng(center.lat, center.lng);
     onLocationSelect({
       ...center,
-      radius: radius / 1000
+      radius: radius / 1000,
+      address
     });
+    setDialogOpen(false);
   };
 
   const circleOptions = {
@@ -102,7 +129,7 @@ export function LocationPicker({ onLocationSelect }: LocationPickerProps) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon">
           <MapPin className="h-5 w-5" />
