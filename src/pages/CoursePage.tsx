@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { Button } from '@/components/ui/button';
@@ -68,101 +69,109 @@ const upcomingSessions = [
 ];
 
 const CoursePage = () => {
-    const { slug } = useParams();
-    const navigate = useNavigate();
-    const course = courses.find(c => c.slug === slug);
-  
-    const [enrolled, setEnrolled] = useState(false);
-  
-    if (!course) {
-      return (
-        <div className="p-6">
-          <h1 className="text-2xl font-bold">Course Not Found</h1>
-        </div>
-      );
-    }
-  
-    const sessions = upcomingSessions.filter(session => session.courseSlug === course.slug);
-  
-    const handleEnroll = () => {
-      setEnrolled(true);
-      alert('You are now Enrolled!');
-    };
-  
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const course = courses.find(c => c.slug === slug);
+  const [enrolled, setEnrolled] = useState(false);
+
+  if (!course) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="flex">
-          <Sidebar />
-          <main className="flex-1 p-6">
-            <div className="container mx-auto space-y-6">
-  
-              <Button variant="ghost" className="flex items-center gap-2" onClick={() => navigate(-1)}>
-                <ChevronLeft className="h-4 w-4" />
-                Back to Learning
-              </Button>
-  
-              <Card className="overflow-hidden">
-                <img src={course.image} alt={course.title} className="w-full h-64 object-cover"/>
-                <div className="p-6 space-y-4">
-                  <Badge>{course.category}</Badge>
-                  <h1 className="text-3xl font-bold">{course.title}</h1>
-                  <p className="text-muted-foreground">{course.description}</p>
-  
-                  <div className="flex flex-col md:flex-row gap-4 text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-primary"/>
-                      {course.students} students
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-primary"/>
-                      Duration: {course.duration}
-                    </div>
-                  </div>
-  
-                  <div className="flex gap-4 pt-4">
-                    <Button
-                      className={`flex-1 ${enrolled ? 'bg-green-600 hover:bg-green-700' : ''}`}
-                      onClick={handleEnroll}
-                      disabled={enrolled}
-                    >
-                      {enrolled ? 'Enrolled' : 'Enroll Now'}
-                    </Button>
-                    <Button variant="outline" className="flex items-center gap-2">
-                      <Share2 className="h-4 w-4"/> Share
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-  
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Upcoming Sessions</h2>
-                {sessions.length > 0 ? (
-                  <div className="space-y-4">
-                    {sessions.map(session => (
-                      <Card key={session.id} className="p-4">
-                        <h3 className="text-lg font-semibold">{session.title}</h3>
-                        <div className="flex items-center gap-4 text-muted-foreground mt-2">
-                          <span className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4"/> {session.date}
-                          </span>
-                          <span className="flex items-center gap-2">
-                            <Clock className="w-4 h-4"/> {session.time}
-                          </span>
-                        </div>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground">No upcoming sessions scheduled yet.</p>
-                )}
-              </div>
-  
-            </div>
-          </main>
-        </div>
+      <div className="p-6">
+        <h1 className="text-2xl font-bold">Course Not Found</h1>
       </div>
     );
+  }
+
+  const sessions = upcomingSessions.filter(session => session.courseSlug === course.slug);
+
+  const handleEnroll = () => {
+    setEnrolled(true);
+    toast.success('You are now Enrolled!');
   };
-  
-  export default CoursePage;
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success('Link Copied!');
+    } catch {
+      toast.error('Failed to copy link.');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="flex">
+        <Sidebar />
+        <main className="flex-1 p-6">
+          <div className="container mx-auto space-y-6">
+
+            <Button variant="ghost" className="flex items-center gap-2" onClick={() => navigate(-1)}>
+              <ChevronLeft className="h-4 w-4" />
+              Back to Learning
+            </Button>
+
+            <Card className="overflow-hidden">
+              <img src={course.image} alt={course.title} className="w-full h-64 object-cover"/>
+              <div className="p-6 space-y-4">
+                <Badge>{course.category}</Badge>
+                <h1 className="text-3xl font-bold">{course.title}</h1>
+                <p className="text-muted-foreground">{course.description}</p>
+
+                <div className="flex flex-col md:flex-row gap-4 text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-primary"/>
+                    {course.students} students
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-primary"/>
+                    Duration: {course.duration}
+                  </div>
+                </div>
+
+                <div className="flex gap-4 pt-4">
+                  <Button
+                    className={`flex-1 ${enrolled ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                    onClick={handleEnroll}
+                    disabled={enrolled}
+                  >
+                    {enrolled ? 'Enrolled' : 'Enroll Now'}
+                  </Button>
+                  <Button variant="outline" className="flex items-center gap-2" onClick={handleShare}>
+                    <Share2 className="h-4 w-4"/> Share
+                  </Button>
+                </div>
+              </div>
+            </Card>
+
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Upcoming Sessions</h2>
+              {sessions.length > 0 ? (
+                <div className="space-y-4">
+                  {sessions.map(session => (
+                    <Card key={session.id} className="p-4">
+                      <h3 className="text-lg font-semibold">{session.title}</h3>
+                      <div className="flex items-center gap-4 text-muted-foreground mt-2">
+                        <span className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4"/> {session.date}
+                        </span>
+                        <span className="flex items-center gap-2">
+                          <Clock className="w-4 h-4"/> {session.time}
+                        </span>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No upcoming sessions scheduled yet.</p>
+              )}
+            </div>
+
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default CoursePage;

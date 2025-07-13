@@ -4,6 +4,8 @@ import Sidebar from '@/components/Sidebar';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { toast } from 'sonner';
+import { useState } from 'react';
 import { Users, MapPin, ChevronLeft, Share2, Calendar, Clock } from 'lucide-react';
 
 const Communities = [
@@ -74,14 +76,33 @@ const upcomingEvents = [
   const CommunityPage = () => {
     const { slug } = useParams();
     const navigate = useNavigate();
-  
     const community = Communities.find(c => c.slug === slug);
-    var communityEvents
+    const communityEvents = community
+      ? upcomingEvents.filter(e => e.communitySlug === community.slug)
+      : [upcomingEvents[3]];
+  
+    const [joined, setJoined] = useState(false);
+  
+    const handleJoin = () => {
+      setJoined(true);
+      toast.success('Community Joined!');
+    };
+  
+    const handleShare = async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast.success('Link Copied!');
+      } catch (err) {
+        toast.error('Failed to copy link.');
+      }
+    };
+  
     if (!community) {
-      communityEvents = upcomingEvents[3]
-    }
-    else{
-        communityEvents = upcomingEvents.filter(e => e.communitySlug === community.slug);
+      return (
+        <div className="p-6">
+          <h1 className="text-2xl font-bold">Community Not Found</h1>
+        </div>
+      );
     }
   
     return (
@@ -116,15 +137,20 @@ const upcomingEvents = [
                   </div>
   
                   <div className="flex gap-4 pt-4">
-                    <Button className="flex-1">Join Community</Button>
-                    <Button variant="outline" className="flex items-center gap-2">
+                    <Button
+                      className={`flex-1 ${joined ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                      onClick={handleJoin}
+                      disabled={joined}
+                    >
+                      {joined ? 'Joined' : 'Join Community'}
+                    </Button>
+                    <Button variant="outline" className="flex items-center gap-2" onClick={handleShare}>
                       <Share2 className="h-4 w-4"/> Share
                     </Button>
                   </div>
                 </div>
               </Card>
   
-              {/* Upcoming Events */}
               <div>
                 <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
                 {communityEvents.length > 0 ? (
