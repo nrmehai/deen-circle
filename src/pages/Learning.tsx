@@ -1,4 +1,4 @@
-import { BookOpen, Users, Calendar, Star } from "lucide-react";
+import { BookOpen, Users, Calendar, Star, Tag } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -14,6 +14,7 @@ const Learning = () => {
       students: 45,
       rating: 4.9,
       duration: "6 weeks",
+      tags: ["Quran", "Recitation"],
       image: "https://productivemuslim.com/wp-content/uploads/2012/09/Quran-2.jpg"
     },
     {
@@ -23,6 +24,7 @@ const Learning = () => {
       students: 32,
       rating: 4.8,
       duration: "8 weeks",
+      tags: ["History"],
       image: "https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/sites/default/files/20200201_BKP506.jpg"
     },
     {
@@ -32,6 +34,7 @@ const Learning = () => {
       students: 28,
       rating: 4.7,
       duration: "12 weeks",
+      tags: ["Language", "Arabic"],
       image: "https://lh7-us.googleusercontent.com/X_wsvRJsXMjDw8zlNIQhr_5KhtgZQl2o3qTAnh5ESRCfGIPbw427C2ZTH8kfY7MdlL83MaxObI_oP_dic_q98-7InA1Zn_3gKhVcX0CEFzdp2YnOWOxM9DUQx_cbjo0SP1BnWQ_IMfA-UtqGfLybluM"
     }
   ];
@@ -60,6 +63,19 @@ const Learning = () => {
                     <div className="p-4">
                       <h3 className="font-semibold text-foreground mb-2">{course.title}</h3>
                       <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {course.tags.map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="flex items-center text-xs bg-accent text-background rounded-full px-2 py-0.5"
+                          >
+                            <Tag className="w-3 h-3 mr-1" />
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
 
                       <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
                         <div className="flex items-center gap-1">
