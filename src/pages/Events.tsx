@@ -5,7 +5,6 @@ import { Calendar, Filter, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import heroImage from "@/assets/hero-islamic.jpg";
 import mosqueImg from "@/assets/mosque.jpg";
 import financeImg from "@/assets/finnances.jpg";
 import iftarImg from "@/assets/iftar.jpg";
@@ -25,7 +24,8 @@ export const allEvents = [
     category: "prayer" as const,
     image: mosqueImg,
     interestedFriends: ['Ahmed', 'Fatima', 'Omar'],
-    relatedEvents: ['2', '3', '4']
+    relatedEvents: ['2', '3', '4'],
+    tags: ['prayer', 'community', 'weekly']
   },
   {
     id: '2',
@@ -40,7 +40,8 @@ export const allEvents = [
     category: "education" as const,
     image: financeImg,
     interestedFriends: ['Layla', 'Bilal'],
-    relatedEvents: ['1', '3', '4']
+    relatedEvents: ['1', '3', '4'],
+    tags: ['finance', 'education', 'workshop']
   },
   {
     id: '3',
@@ -55,7 +56,8 @@ export const allEvents = [
     category: "community" as const,
     image: iftarImg,
     interestedFriends: ['Samir', 'Aisha'],
-    relatedEvents: ['1', '2', '4']
+    relatedEvents: ['1', '2', '4'],
+    tags: ['iftar', 'ramadan', 'community']
   },
   {
     id: '4',
@@ -70,7 +72,8 @@ export const allEvents = [
     category: "education" as const,
     image: quranImg,
     interestedFriends: ['Yusuf', 'Maryam'],
-    relatedEvents: ['1', '2', '3']
+    relatedEvents: ['1', '2', '3'],
+    tags: ['quran', 'youth', 'competition']
   }
 ];
 

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import TagBadge from "@/components/TagBadge";
 
 interface EventCardProps {
   id?: string;
@@ -15,6 +16,7 @@ interface EventCardProps {
   attendees: number;
   category: 'prayer' | 'lecture' | 'social' | 'charity' | 'education' | 'community';
   image?: string;
+  tags?: string[];
 }
 
 const EventCard = ({ 
@@ -27,7 +29,8 @@ const EventCard = ({
   organizer, 
   attendees, 
   category,
-  image 
+  image,
+  tags
 }: EventCardProps) => {
   const navigate = useNavigate();
 
@@ -79,6 +82,12 @@ const EventCard = ({
       <div className="p-4">
         <h3 className="text-lg font-semibold mb-2">{title}</h3>
         <p className="text-muted-foreground text-sm mb-4">{description}</p>
+        {/* Tags */}
+        <div className="flex flex-wrap mb-2">
+          {Array.isArray(tags) && tags.map((tag) => (
+            <TagBadge key={tag} tag={tag} />
+          ))}
+        </div>
         
         <div className="space-y-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
