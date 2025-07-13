@@ -17,7 +17,7 @@ export interface EventType {
   organizer: string;
   organizationLogo?: string;
   attendees: number;
-  category: string;
+  category: 'prayer' | 'lecture' | 'social' | 'charity' | 'education' | 'community';
   image?: string;
   interestedFriends: string[];
   relatedEvents: string[];

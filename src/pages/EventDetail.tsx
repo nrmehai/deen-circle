@@ -11,7 +11,6 @@ import mosqueImg from '@/assets/mosque.jpg';
 import financeImg from '@/assets/finnances.jpg';
 import iftarImg from '@/assets/iftar.jpg';
 import quranImg from '@/assets/quran.jpg';
-import { allEvents } from './Events';
 import TagBadge from "@/components/TagBadge";
 import { useEffect } from "react";
 import { useEvents } from '@/components/EventContext';

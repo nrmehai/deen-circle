@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import mosqueImg from "@/assets/mosque.jpg";
-import financeImg from "@/assets/finnances.jpg";
 import iftarImg from "@/assets/iftar.jpg";
 import quranImg from "@/assets/quran.jpg";
 import TagBadge from "@/components/TagBadge";
@@ -39,7 +38,8 @@ const Events = () => {
     date: '',
     time: '',
     location: '',
-    description: ''
+    description: '',
+    category: 'community' as 'prayer' | 'lecture' | 'social' | 'charity' | 'education' | 'community',
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -73,7 +73,7 @@ const Events = () => {
   const handleDrawerClose = () => {
     setDrawerOpen(false);
     setForm({
-      title: '', organizer: '', image: '', imageFile: null, tags: [], date: '', time: '', location: '', description: ''
+      title: '', organizer: '', image: '', imageFile: null, tags: [], date: '', time: '', location: '', description: '', category: 'community'
     });
   };
   const handleCreateEvent = () => {
@@ -91,7 +91,7 @@ const Events = () => {
       organizer: form.organizer,
       organizationLogo: '/placeholder.svg',
       attendees: 0,
-      category: 'community',
+      category: form.category,
       image: form.image,
       interestedFriends: [],
       relatedEvents: [],
@@ -175,6 +175,16 @@ const Events = () => {
 
                 <label className="block font-medium">Tags</label>
                 <TagInput value={form.tags} onChange={handleTagChange} suggestions={allTags} />
+
+                <label className="block font-medium">Category</label>
+                <select name="category" value={form.category} onChange={handleFormChange} className="w-full border rounded p-2">
+                  <option value="prayer">Prayer</option>
+                  <option value="lecture">Lecture</option>
+                  <option value="social">Social</option>
+                  <option value="charity">Charity</option>
+                  <option value="education">Education</option>
+                  <option value="community">Community</option>
+                </select>
 
                 <label className="block font-medium">Date</label>
                 <input type="date" name="date" value={form.date} onChange={handleFormChange} className="w-full border rounded p-2" />
