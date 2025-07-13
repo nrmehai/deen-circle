@@ -3,10 +3,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import { Link } from 'react-router-dom';
 
 const Learning = () => {
   const courses = [
     {
+      slug: "quran-recitation-basics",
       title: "Quran Recitation Basics",
       instructor: "Sheikh Ahmad",
       students: 45,
@@ -15,6 +17,7 @@ const Learning = () => {
       image: "https://productivemuslim.com/wp-content/uploads/2012/09/Quran-2.jpg"
     },
     {
+      slug: "islamic-history",
       title: "Islamic History",
       instructor: "Dr. Fatima",
       students: 32,
@@ -23,6 +26,7 @@ const Learning = () => {
       image: "https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/sites/default/files/20200201_BKP506.jpg"
     },
     {
+      slug: "arabic-language-foundation",
       title: "Arabic Language Foundation",
       instructor: "Ustaz Muhammad",
       students: 28,
@@ -46,37 +50,39 @@ const Learning = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {courses.map((course, index) => (
-                <Card key={index} className="overflow-hidden hover:shadow-soft transition-shadow">
-                <img
-                  src={course.image}
-                  alt={course.title}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-semibold text-foreground mb-2">{course.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
-              
-                  <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                    <div className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
-                      {course.students}
+                <Link key={index} to={`/learning/${course.slug}`}>
+                  <Card className="overflow-hidden hover:shadow-soft transition-shadow cursor-pointer">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="w-full h-40 object-cover"
+                    />
+                    <div className="p-4">
+                      <h3 className="font-semibold text-foreground mb-2">{course.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
+
+                      <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                        <div className="flex items-center gap-1">
+                          <Users className="w-4 h-4" />
+                          {course.students}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 fill-current text-accent" />
+                          {course.rating}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Calendar className="w-4 h-4" />
+                          {course.duration}
+                        </div>
+                      </div>
+
+                      <Button variant="spiritual" className="w-full">
+                        <BookOpen className="w-4 h-4 mr-2" />
+                        Enroll Now
+                      </Button>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-current text-accent" />
-                      {course.rating}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
-                      {course.duration}
-                    </div>
-                  </div>
-              
-                  <Button variant="spiritual" className="w-full">
-                    <BookOpen className="w-4 h-4 mr-2" />
-                    Enroll Now
-                  </Button>
-                </div>
-              </Card>              
+                  </Card>
+                </Link>
               ))}
             </div>
           </div>
