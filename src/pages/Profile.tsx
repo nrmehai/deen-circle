@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Users } from "lucide-react";
+import { Users, Camera, Edit2, Check, X } from "lucide-react";
 import PostCard from "@/components/PostCard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import EventCard from "@/components/EventCard";
 import Header from "@/components/Header";
 import CommunityCard from "@/components/CommunityCard"
@@ -13,10 +15,81 @@ import quranImg from "@/assets/quran.jpg";
 import iftarImg from "@/assets/iftar.jpg";
 import TagInput from "@/components/TagInput";
 import { Link } from 'react-router-dom';
+import { useProfileStore } from '@/stores/profileStore';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"posts" | "groups" | "events">("posts");
-  const [tags, setTags] = useState<string[]>(["youth", "charity"]);
+  const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
+  
+  // Get state and actions from Zustand store
+  const { name, bio, profileImage, tags, setName, setBio, setProfileImage, setTags } = useProfileStore();
+  
+  // Local editing states
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingBio, setIsEditingBio] = useState(false);
+  const [tempName, setTempName] = useState(name);
+  const [tempBio, setTempBio] = useState(bio);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Check if file is an image
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const result = e.target?.result as string;
+          setProfileImage(result);
+          setIsUploadDialogOpen(false);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert('Please select a valid image file.');
+      }
+    }
+  };
+
+  const handleNameEdit = () => {
+    setTempName(name);
+    setIsEditingName(true);
+  };
+
+  const handleNameSave = () => {
+    setName(tempName);
+    setIsEditingName(false);
+  };
+
+  const handleNameCancel = () => {
+    setTempName(name);
+    setIsEditingName(false);
+  };
+
+  const handleBioEdit = () => {
+    setTempBio(bio);
+    setIsEditingBio(true);
+  };
+
+  const handleBioSave = () => {
+    setBio(tempBio);
+    setIsEditingBio(false);
+  };
+
+  const handleBioCancel = () => {
+    setTempBio(bio);
+    setIsEditingBio(false);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent, saveFunction: () => void) => {
+    if (e.key === 'Enter') {
+      saveFunction();
+    } else if (e.key === 'Escape') {
+      if (saveFunction === handleNameSave) {
+        handleNameCancel();
+      } else {
+        handleBioCancel();
+      }
+    }
+  };
+
   const allEvents = [
     {
       id: '1',
@@ -95,10 +168,11 @@ const Profile = () => {
     }
   ];
 
+  // Single samplePosts declaration that uses the dynamic name from store
   const samplePosts = [
     {
       author: {
-        name: "Yahya Abdullah",
+        name: name,
         location: "Islamic Center of Maryland"
       },
       content: {
@@ -111,7 +185,7 @@ const Profile = () => {
     },
     {
       author: {
-        name: "Yahya Abdullah"
+        name: name
       },
       content: {
         text: "Does anyone know of any halal spots near Germantown-Rockville area?",
@@ -131,13 +205,112 @@ const Profile = () => {
           <div className="max-w-4xl mx-auto space-y-6">
             {/* Profile Header */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Palestine.svg" alt="Profile" className="w-32 h-32 rounded-full object-cover border"/>
+              <div className="relative group">
+                <img 
+                  src={profileImage} 
+                  alt="Profile" 
+                  className="w-32 h-32 rounded-full object-cover border cursor-pointer transition-opacity group-hover:opacity-75"
+                />
+                <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
+                  <DialogTrigger asChild>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                      <Camera className="w-8 h-8 text-white" />
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Upload Profile Picture</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="text-sm text-muted-foreground">
+                        Choose a new profile picture. Supported formats: JPG, PNG, GIF
+                      </div>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="cursor-pointer"
+                      />
+                      <div className="flex justify-end space-x-2">
+                        <Button 
+                          variant="outline" 
+                          onClick={() => setIsUploadDialogOpen(false)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
 
               <div className="flex-1 space-y-2">
-                <h1 className="text-2xl font-bold">Yahya Abdullah</h1>
-                <p className="text-muted-foreground">
-                    Free Palestine
-                </p>
+                {/* Editable Name */}
+                <div className="flex items-center gap-2">
+                  {isEditingName ? (
+                    <div className="flex items-center gap-2">
+                      <Input
+                        value={tempName}
+                        onChange={(e) => setTempName(e.target.value)}
+                        onKeyDown={(e) => handleKeyPress(e, handleNameSave)}
+                        className="text-2xl font-bold h-auto p-1 border-0 border-b-2 rounded-none focus:ring-0"
+                        autoFocus
+                      />
+                      <Button size="sm" variant="ghost" onClick={handleNameSave}>
+                        <Check className="w-4 h-4 text-green-600" />
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={handleNameCancel}>
+                        <X className="w-4 h-4 text-red-600" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 group">
+                      <h1 className="text-2xl font-bold">{name}</h1>
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
+                        onClick={handleNameEdit}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Editable Bio */}
+                <div className="flex items-center gap-2">
+                  {isEditingBio ? (
+                    <div className="flex items-center gap-2 w-full">
+                      <Input
+                        value={tempBio}
+                        onChange={(e) => setTempBio(e.target.value)}
+                        onKeyDown={(e) => handleKeyPress(e, handleBioSave)}
+                        className="text-muted-foreground h-auto p-1 border-0 border-b-2 rounded-none focus:ring-0"
+                        autoFocus
+                      />
+                      <Button size="sm" variant="ghost" onClick={handleBioSave}>
+                        <Check className="w-4 h-4 text-green-600" />
+                      </Button>
+                      <Button size="sm" variant="ghost" onClick={handleBioCancel}>
+                        <X className="w-4 h-4 text-red-600" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 group">
+                      <p className="text-muted-foreground">{bio}</p>
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
+                        onClick={handleBioEdit}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex gap-4 text-sm text-muted-foreground">
                   <span>Friends: <strong>42</strong></span>
                   <span>Groups: <strong>3</strong></span>

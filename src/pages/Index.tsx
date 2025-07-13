@@ -7,8 +7,10 @@ import GoogleCalendar from "@/components/GoogleCalendar";
 import { Calendar, Compass, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useProfileStore } from '@/stores/profileStore';
 
 const Index = () => {
+  const { name, profileImage } = useProfileStore();
   // Sample friends stories data
   const friendsStories = [
     {
@@ -87,6 +89,21 @@ const Index = () => {
 
   // Sample data for demonstration
   const samplePosts = [
+    {
+      author: {
+        name: name, // Use dynamic name from store
+        avatar: profileImage, // Use dynamic profile image from store
+        isVerified: false,
+        location: "Local Community"
+      },
+      content: {
+        text: "Alhamdulillah for another blessed day. May Allah grant us all strength and guidance in our daily lives. 🤲",
+        type: "regular" as const
+      },
+      timestamp: "1 hour ago",
+      likes: 45,
+      comments: 8
+    },
     {
       author: {
         name: "Dr. Ahmad Hassan",
