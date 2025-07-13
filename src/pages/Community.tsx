@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import CommunityCard from "@/components/CommunityCard";
+import TagBadge from "@/components/TagBadge";
 import { Calendar, Filter, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +20,8 @@ const Community = () => {
       attendees: 11932,
       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb6AofKf1cqE7Y4bl_FtQ5v1vUffdMGeQsEw&s",
       category: "masjid",
-      visibility: "public"
+      visibility: "public",
+      tags: ["masjid", "maryland", "community"]
     },
     {
       name: "UMD MSA",
@@ -28,7 +30,8 @@ const Community = () => {
       attendees: 2701,
       image: "https://images.squarespace-cdn.com/content/v1/5a8b30b42278e78aeffd315f/6dbf46f1-d4cc-4650-a415-e195d5173030/logo.png",
       category: "student organization",
-      visibility: "public"
+      visibility: "public",
+      tags: ["student", "maryland", "education"]
     },
     {
       name: "YM Gaithersburg",
@@ -37,19 +40,32 @@ const Community = () => {
       attendees: 78,
       image: "https://ymsite.com/wp-content/uploads/2023/07/YM-Favicon.png",
       category: "youth organization",
-      visibility: "public"
+      visibility: "public",
+      tags: ["youth", "gaithersburg", "identity"]
     }
   ]);
 
   const [open, setOpen] = useState(false);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     location: '',
     image: '',
     category: '',
-    visibility: 'public'
+    visibility: 'public',
+    tags: ''
   });
+
+  const allTags = Array.from(new Set(communities.flatMap(c => c.tags || [])));
+
+  const toggleTag = (tag: string) => {
+    setSelectedTag(selectedTag === tag ? null : tag);
+  };
+
+  const filteredCommunities = !selectedTag
+    ? communities
+    : communities.filter(c => c.tags?.includes(selectedTag));
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,23 +77,21 @@ const Community = () => {
     } else {
       const newCommunity = {
         ...formData,
-        attendees: 1
+        attendees: 1,
+        tags: formData.tags.split(',').map(tag => tag.trim())
       };
       setCommunities(prev => [...prev, newCommunity]);
     }
-  
-    setFormData({ name: '', description: '', location: '', image: '', category: '', visibility: 'public' });
+
+    setFormData({ name: '', description: '', location: '', image: '', category: '', visibility: 'public', tags: '' });
     setOpen(false);
   };
-  
 
   return (
     <div className="min-h-screen bg-gradient-peaceful">
       <Header />
-
       <div className="flex">
         <Sidebar />
-
         <main className="flex-1 max-w-6xl mx-auto p-6">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
@@ -85,43 +99,43 @@ const Community = () => {
                 <h1 className="text-3xl font-bold text-foreground mb-2">Communities</h1>
                 <p className="text-muted-foreground">Discover communities that are perfect for you!</p>
               </div>
-              <Button
-                className="bg-gradient-primary hover:bg-gradient-primary/90"
-                onClick={() => setOpen(true)}
-              >
+              <Button className="bg-gradient-primary hover:bg-gradient-primary/90" onClick={() => setOpen(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 Create Community
               </Button>
             </div>
 
-            <div className="flex gap-4 mb-6">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input placeholder="Search communities..." className="pl-10 bg-card border-border" />
-              </div>
-              <Button variant="outline"><Filter className="w-4 h-4 mr-2" /> Filter</Button>
-              <Button variant="outline"><Calendar className="w-4 h-4 mr-2" /> Calendar View</Button>
+            <div className="mb-4 flex flex-wrap gap-2">
+              {allTags.map(tag => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => toggleTag(tag)}
+                  className="focus:outline-none"
+                >
+                  <TagBadge tag={tag} selected={selectedTag === tag} />
+                </button>
+              ))}
             </div>
-          </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {communities.map((community, index) => (
-              <Link
-                key={index}
-                to={`/community/${encodeURIComponent(community.name.replace(/\s+/g, '-').toLowerCase())}`}
-              >
-                <CommunityCard {...community} />
-              </Link>
-            ))}
-          </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredCommunities.map((community, index) => (
+                <Link
+                  key={index}
+                  to={`/community/${encodeURIComponent(community.name.replace(/\s+/g, '-').toLowerCase())}`}
+                >
+                  <CommunityCard {...community} />
+                </Link>
+              ))}
+            </div>
 
-          <div className="text-center mt-8">
-            <Button variant="outline">Load More Communities</Button>
+            <div className="text-center mt-8">
+              <Button variant="outline">Load More Communities</Button>
+            </div>
           </div>
         </main>
       </div>
 
-      {/* Create Community Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
@@ -154,6 +168,9 @@ const Community = () => {
               <option value="public">Public</option>
               <option value="private">Private</option>
             </select>
+
+            <Label>Tags (comma-separated)</Label>
+            <Input name="tags" value={formData.tags} onChange={handleInputChange} />
 
             <Button onClick={handleCreateCommunity} className="mt-4 w-full">Create</Button>
           </div>

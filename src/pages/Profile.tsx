@@ -12,6 +12,7 @@ import financeImg from "@/assets/finnances.jpg";
 import quranImg from "@/assets/quran.jpg";
 import iftarImg from "@/assets/iftar.jpg";
 import TagInput from "@/components/TagInput";
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"posts" | "groups" | "events">("posts");
@@ -184,10 +185,13 @@ const Profile = () => {
               {activeTab === "groups" && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {Communities.map((community, index) => (
-                    <CommunityCard key={index} {...community} />
+                    <Link key={index} to={`/community/${encodeURIComponent(community.name.replace(/\s+/g, '-').toLowerCase())}`}>
+                      <CommunityCard {...community} />
+                      </Link>
                     ))}
                     </div>
                   )}
+
 
               {activeTab === "events" && (
   <div className="grid md:grid-cols-2 gap-4">
