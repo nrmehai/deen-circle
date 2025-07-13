@@ -7,6 +7,10 @@ import EventCard from "@/components/EventCard";
 import Header from "@/components/Header";
 import CommunityCard from "@/components/CommunityCard"
 import Sidebar from "@/components/Sidebar";
+import mosqueImg from "@/assets/mosque.jpg";
+import financeImg from "@/assets/finnances.jpg";
+import quranImg from "@/assets/quran.jpg";
+import iftarImg from "@/assets/iftar.jpg";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"posts" | "groups" | "events">("posts");
@@ -21,7 +25,7 @@ const Profile = () => {
       organizer: "Masjid Al-Noor",
       attendees: 234,
       category: "prayer" as const,
-      image: "/prayer-mat.svg"
+      image: mosqueImg
     },
     {
       id: '2',
@@ -33,7 +37,7 @@ const Profile = () => {
       organizer: "Islamic Finance Institute",
       attendees: 89,
       category: "education" as const,
-      image: "/finance-workshop.svg"
+      image: financeImg
     },
     {
       id: '3',
@@ -45,7 +49,7 @@ const Profile = () => {
       organizer: "Community Volunteers",
       attendees: 156,
       category: "community" as const,
-      image: "/iftar-gathering.svg"
+      image: iftarImg
     },
     {
       id: '4',
@@ -57,7 +61,7 @@ const Profile = () => {
       organizer: "Youth Islamic Society",
       attendees: 45,
       category: "education" as const,
-      image: "/quran-competition.svg"
+      image: quranImg
     }
   ];
 
