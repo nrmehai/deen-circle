@@ -14,6 +14,7 @@ import quranImg from '@/assets/quran.jpg';
 import { allEvents } from './Events';
 import TagBadge from "@/components/TagBadge";
 import { useEffect } from "react";
+import { useEvents } from '@/components/EventContext';
 
 interface Event {
   id: string;
@@ -35,13 +36,14 @@ interface Event {
 const EventDetail = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
+  const { events } = useEvents();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [eventId]);
 
-  // Find the event by id from the imported allEvents array
-  const event = allEvents.find(e => e.id === eventId);
+  // Find the event by id from the context events array
+  const event = events.find(e => e.id === eventId);
 
   if (!event) {
     return (
@@ -58,7 +60,7 @@ const EventDetail = () => {
   }
 
   // Related events: filter out the current event
-  const relatedEvents = allEvents.filter(e => e.id !== event.id).slice(0, 3);
+  const relatedEvents = events.filter(e => e.id !== event.id).slice(0, 3);
 
   const getCategoryColor = (category: Event['category']) => {
     const colors = {

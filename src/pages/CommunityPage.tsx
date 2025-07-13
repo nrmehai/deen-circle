@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Users, MapPin, ChevronLeft, Share2, Calendar, Clock } from 'lucide-react';
+import { useEvents } from '@/components/EventContext';
 
 const Communities = [
   {
@@ -36,126 +37,92 @@ const Communities = [
   }
 ];
 
-const upcomingEvents = [
-    {
-      id: '1',
-      communitySlug: 'islamic-center-of-maryland',
-      title: 'Friday Jummah Prayer',
-      date: 'July 19, 2025',
-      time: '1:00 PM',
-      location: 'Masjid Al-Noor, 123 Main St',
-    },
-    {
-      id: '2',
-      communitySlug: 'islamic-center-of-maryland',
-      title: 'Quran Study Circle',
-      date: 'July 20, 2025',
-      time: '5:00 PM',
-      location: 'Masjid Library',
-    },
-    {
-      id: '3',
-      communitySlug: 'ym-gaithersburg',
-      title: 'Youth Game Night',
-      date: 'July 21, 2025',
-      time: '6:00 PM',
-      location: 'Islamic Center of Maryland',
-    },
-    {
-      id: '4',
-      communitySlug: 'untitled',
-      title: 'Untitled',
-      date: 'July 17, 2025',
-      time: '5:00 PM',
-      location: '',
-    }
-  ];
-  
-  const CommunityPage = () => {
-    const { slug } = useParams();
-    const navigate = useNavigate();
-  
-    const community = Communities.find(c => c.slug === slug);
-    var communityEvents
-    if (!community) {
-      communityEvents = upcomingEvents[3]
-    }
-    else{
-        communityEvents = upcomingEvents.filter(e => e.communitySlug === community.slug);
-    }
-  
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="flex">
-          <Sidebar />
-          <main className="flex-1 p-6">
-            <div className="container mx-auto space-y-6">
-  
-              <Button variant="ghost" className="flex items-center gap-2" onClick={() => navigate(-1)}>
-                <ChevronLeft className="h-4 w-4" />
-                Back to Communities
-              </Button>
-  
-              <Card className="overflow-hidden">
-                <img src={community.image} alt={community.name} className="w-full h-64 object-cover"/>
-                <div className="p-6 space-y-4">
-                  <Badge>{community.category}</Badge>
-                  <h1 className="text-3xl font-bold">{community.name}</h1>
-                  <p className="text-muted-foreground">{community.description}</p>
-  
-                  <div className="flex flex-col md:flex-row gap-4 text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-primary"/>
-                      {community.location}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-primary"/>
-                      {community.attendees} members
-                    </div>
+const CommunityPage = () => {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const { events } = useEvents();
+
+  const community = Communities.find(c => c.slug === slug);
+  var communityEvents
+  if (!community) {
+    communityEvents = events.filter(e => e.communitySlug === 'untitled'); // Fallback to a default event if community not found
+  }
+  else{
+      communityEvents = events.filter(e => e.communitySlug === community.slug);
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="flex">
+        <Sidebar />
+        <main className="flex-1 p-6">
+          <div className="container mx-auto space-y-6">
+
+            <Button variant="ghost" className="flex items-center gap-2" onClick={() => navigate(-1)}>
+              <ChevronLeft className="h-4 w-4" />
+              Back to Communities
+            </Button>
+
+            <Card className="overflow-hidden">
+              <img src={community.image} alt={community.name} className="w-full h-64 object-cover"/>
+              <div className="p-6 space-y-4">
+                <Badge>{community.category}</Badge>
+                <h1 className="text-3xl font-bold">{community.name}</h1>
+                <p className="text-muted-foreground">{community.description}</p>
+
+                <div className="flex flex-col md:flex-row gap-4 text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-primary"/>
+                    {community.location}
                   </div>
-  
-                  <div className="flex gap-4 pt-4">
-                    <Button className="flex-1">Join Community</Button>
-                    <Button variant="outline" className="flex items-center gap-2">
-                      <Share2 className="h-4 w-4"/> Share
-                    </Button>
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-primary"/>
+                    {community.attendees} members
                   </div>
                 </div>
-              </Card>
-  
-              {/* Upcoming Events */}
-              <div>
-                <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
-                {communityEvents.length > 0 ? (
-                  <div className="space-y-4">
-                    {communityEvents.map(event => (
-                      <Card key={event.id} className="p-4">
-                        <h3 className="text-lg font-semibold">{event.title}</h3>
-                        <div className="flex flex-col md:flex-row md:items-center md:gap-6 text-muted-foreground mt-2">
-                          <span className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" /> {event.date}
-                          </span>
-                          <span className="flex items-center gap-2">
-                            <Clock className="w-4 h-4" /> {event.time}
-                          </span>
-                          <span className="flex items-center gap-2">
-                            <MapPin className="w-4 h-4" /> {event.location}
-                          </span>
-                        </div>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground">No upcoming events for this community.</p>
-                )}
+
+                <div className="flex gap-4 pt-4">
+                  <Button className="flex-1">Join Community</Button>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Share2 className="h-4 w-4"/> Share
+                  </Button>
+                </div>
               </div>
-  
+            </Card>
+
+            {/* Upcoming Events */}
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Upcoming Events</h2>
+              {communityEvents.length > 0 ? (
+                <div className="space-y-4">
+                  {communityEvents.map(event => (
+                    <Card key={event.id} className="p-4">
+                      <h3 className="text-lg font-semibold">{event.title}</h3>
+                      <div className="flex flex-col md:flex-row md:items-center md:gap-6 text-muted-foreground mt-2">
+                        <span className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" /> {event.date}
+                        </span>
+                        <span className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" /> {event.time}
+                        </span>
+                        <span className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" /> {event.location}
+                        </span>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No upcoming events for this community.</p>
+              )}
             </div>
-          </main>
-        </div>
+
+          </div>
+        </main>
       </div>
-    );
-  };
-  
-  export default CommunityPage;
+    </div>
+  );
+};
+
+export default CommunityPage;

@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
-import { allEvents } from "@/pages/Events";
+import { useEvents } from "@/components/EventContext";
 import { useProfileStore } from "@/stores/profileStore";
 
 interface CreatePostProps {
@@ -38,7 +38,7 @@ const CreatePost = ({ handleNewPost }: CreatePostProps) => {
   const handleCreatePost = () => {
     if (!postText.trim()) return;
 
-    const selectedEventData = selectedEvent ? allEvents.find(event => event.id === selectedEvent) : undefined;
+    const selectedEventData = selectedEvent ? useEvents().events.find(event => event.id === selectedEvent) : undefined;
 
     const newPost = {
       author: {
@@ -99,7 +99,7 @@ const CreatePost = ({ handleNewPost }: CreatePostProps) => {
                 <SelectValue placeholder="Select an event to link" />
               </SelectTrigger>
               <SelectContent>
-                {allEvents.map((event) => (
+                {useEvents().events.map((event) => (
                   <SelectItem key={event.id} value={event.id}>
                     {event.title} - {event.date}
                   </SelectItem>

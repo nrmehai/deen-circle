@@ -16,6 +16,7 @@ import iftarImg from "@/assets/iftar.jpg";
 import TagInput from "@/components/TagInput";
 import { Link } from 'react-router-dom';
 import { useProfileStore } from '@/stores/profileStore';
+import { useEvents } from '@/components/EventContext';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"posts" | "groups" | "events">("posts");
@@ -90,56 +91,7 @@ const Profile = () => {
     }
   };
 
-  const allEvents = [
-    {
-      id: '1',
-      title: "Friday Jummah Prayer",
-      description: "Weekly congregation prayer with khutbah by Imam Abdullah",
-      date: "December 15, 2024",
-      time: "1:00 PM - 2:00 PM",
-      location: "Masjid Al-Noor, 123 Main St",
-      organizer: "Masjid Al-Noor",
-      attendees: 234,
-      category: "prayer" as const,
-      image: mosqueImg
-    },
-    {
-      id: '2',
-      title: "Islamic Finance Workshop",
-      description: "Learn about halal investment strategies and Islamic banking principles",
-      date: "December 18, 2024",
-      time: "6:30 PM - 8:30 PM",
-      location: "Community Center Hall B",
-      organizer: "Islamic Finance Institute",
-      attendees: 89,
-      category: "education" as const,
-      image: financeImg
-    },
-    {
-      id: '3',
-      title: "Community Iftar Gathering",
-      description: "Join us for a blessed community iftar during Ramadan",
-      date: "March 15, 2024",
-      time: "6:45 PM - 8:30 PM",
-      location: "Masjid Al-Noor Main Hall",
-      organizer: "Community Volunteers",
-      attendees: 156,
-      category: "community" as const,
-      image: iftarImg
-    },
-    {
-      id: '4',
-      title: "Youth Quran Competition",
-      description: "Annual Quran recitation and memorization competition for youth",
-      date: "January 20, 2024",
-      time: "10:00 AM - 4:00 PM",
-      location: "Islamic Education Center",
-      organizer: "Youth Islamic Society",
-      attendees: 45,
-      category: "education" as const,
-      image: quranImg
-    }
-  ];
+  const { events } = useEvents();
 
   const Communities = [
     {
@@ -370,7 +322,7 @@ const Profile = () => {
 
               {activeTab === "events" && (
   <div className="grid md:grid-cols-2 gap-4">
-    {allEvents
+    {events
       .filter(event =>
         ["Islamic Finance Workshop", "Youth Quran Competition"].includes(event.title)
       )

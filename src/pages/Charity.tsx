@@ -5,43 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import { useEvents } from '@/components/EventContext';
 
 const Charity = () => {
-  const campaigns = [
-    {
-      title: "Food for Families",
-      organization: "Helping Hands",
-      organizationImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-LXdiRHORWMkvsZuKo83LWN8RXvmCnvC2DQ&s",
-      description: "Providing iftar meals to underprivileged families",
-      raised: 8500,
-      goal: 15000,
-      donors: 124,
-      daysLeft: 12,
-      donateLink: "https://helpinghands.org/donate"
-    },
-    {
-      title: "Build a Water Well",
-      organization: "Water for All",
-      organizationImage: "https://images.squarespace-cdn.com/content/v1/5bb60214f4755a2662bea695/1698246428685-V9WGBD0ICVF8FUUI20B4/water+for+all+logo+engl+%281%29.png",
-      description: "Clean water access for rural communities",
-      raised: 12000,
-      goal: 25000,
-      donors: 89,
-      daysLeft: 45,
-      donateLink: "https://waterforall.org/donate"
-    },
-    {
-      title: "Education Support",
-      organization: "Bright Future Foundation",
-      organizationImage: "https://thebrightfuturefoundation.org/wp-content/uploads/2016/04/cropped-bright_future_foundation-LOGO.png",
-      description: "School supplies for children in need",
-      raised: 3200,
-      goal: 8000,
-      donors: 67,
-      daysLeft: 18,
-      donateLink: "https://brightfuturefoundation.org/donate"
-    }
-  ];
+  const { events } = useEvents();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState(null);
@@ -76,7 +43,7 @@ const Charity = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {campaigns.map((campaign, index) => (
+              {events.map((campaign, index) => (
                 <Card key={index} className="p-6 hover:shadow-soft transition-shadow">
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="font-semibold text-foreground text-lg">{campaign.title}</h3>

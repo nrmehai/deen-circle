@@ -1,8 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useEvents } from '@/components/EventContext';
 
 const NotFound = () => {
   const location = useLocation();
+  const { events } = useEvents();
 
   useEffect(() => {
     console.error(

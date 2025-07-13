@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Users, ChevronLeft, Share2, Calendar, Clock } from 'lucide-react';
+import { useEvents } from '@/components/EventContext';
 
 const courses = [
   {
@@ -42,33 +43,10 @@ const courses = [
   }
 ];
 
-const upcomingSessions = [
-  {
-    id: '1',
-    courseSlug: 'quran-recitation-basics',
-    title: 'Introduction to Tajweed',
-    date: 'July 20, 2025',
-    time: '5:00 PM',
-  },
-  {
-    id: '2',
-    courseSlug: 'quran-recitation-basics',
-    title: 'Practice Session: Surah Al-Fatiha',
-    date: 'July 22, 2025',
-    time: '6:30 PM',
-  },
-  {
-    id: '3',
-    courseSlug: 'islamic-history',
-    title: 'The Life of the Prophet Muhammad (PBUH)',
-    date: 'July 23, 2025',
-    time: '4:00 PM',
-  }
-];
-
 const CoursePage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { events } = useEvents();
 
   const course = courses.find(c => c.slug === slug);
 
@@ -80,7 +58,7 @@ const CoursePage = () => {
     );
   }
 
-  const sessions = upcomingSessions.filter(session => session.courseSlug === course.slug);
+  const sessions = events.filter(event => event.courseSlug === course.slug);
 
   return (
     <div className="min-h-screen bg-background">

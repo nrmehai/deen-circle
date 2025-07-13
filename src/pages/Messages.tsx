@@ -5,31 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import { useEvents } from '@/components/EventContext';
 
 const Messages = () => {
-  const conversations = [
-    {
-      name: "Ahmad Khan",
-      lastMessage: "Assalamu alaikum brother",
-      time: "5m ago",
-      unread: 2,
-      avatar: "/placeholder.svg"
-    },
-    {
-      name: "Fatima Ahmad",
-      lastMessage: "JazakAllahu khair for the reminder",
-      time: "1h ago",
-      unread: 0,
-      avatar: "/placeholder.svg"
-    },
-    {
-      name: "Community Group",
-      lastMessage: "Don't forget tonight's event",
-      time: "2h ago",
-      unread: 5,
-      avatar: "/placeholder.svg"
-    }
-  ];
+  const { events } = useEvents();
 
   return (
     <div className="min-h-screen bg-background">
@@ -54,25 +33,25 @@ const Messages = () => {
                 </div>
 
                 <div className="space-y-2">
-                  {conversations.map((conversation, index) => (
+                  {events.map((event, index) => (
                     <div 
                       key={index} 
                       className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
                     >
                       <Avatar>
-                        <AvatarImage src={conversation.avatar} />
-                        <AvatarFallback>{conversation.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        <AvatarImage src={event.avatar} />
+                        <AvatarFallback>{event.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <h4 className="font-medium text-sm truncate">{conversation.name}</h4>
-                          <span className="text-xs text-muted-foreground">{conversation.time}</span>
+                          <h4 className="font-medium text-sm truncate">{event.name}</h4>
+                          <span className="text-xs text-muted-foreground">{event.time}</span>
                         </div>
-                        <p className="text-sm text-muted-foreground truncate">{conversation.lastMessage}</p>
+                        <p className="text-sm text-muted-foreground truncate">{event.lastMessage}</p>
                       </div>
-                      {conversation.unread > 0 && (
+                      {event.unread > 0 && (
                         <div className="bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                          {conversation.unread}
+                          {event.unread}
                         </div>
                       )}
                     </div>

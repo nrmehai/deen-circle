@@ -17,140 +17,7 @@ import hackImg from "@/assets/hack.jpg";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import TagInput from "@/components/TagInput";
 import { useRef } from "react";
-
-export const allEvents = [
-  {
-    id: '1',
-    title: "Friday Jummah Prayer",
-    description: "Weekly congregation prayer with khutbah by Imam Abdullah",
-    date: "December 15, 2024",
-    time: "1:00 PM - 2:00 PM",
-    location: "Masjid Al-Noor, 123 Main St",
-    organizer: "Masjid Al-Noor",
-    organizationLogo: '/placeholder.svg',
-    attendees: 234,
-    category: "prayer" as const,
-    image: mosqueImg,
-    interestedFriends: ['Ahmed', 'Fatima', 'Omar'],
-    relatedEvents: ['2', '3', '4'],
-    tags: ['prayer', 'community', 'weekly']
-  },
-  {
-    id: '2',
-    title: "Islamic Finance Workshop",
-    description: "Learn about halal investment strategies and Islamic banking principles",
-    date: "December 18, 2024",
-    time: "6:30 PM - 8:30 PM",
-    location: "Community Center Hall B",
-    organizer: "Islamic Finance Institute",
-    organizationLogo: '/placeholder.svg',
-    attendees: 89,
-    category: "education" as const,
-    image: financeImg,
-    interestedFriends: ['Layla', 'Bilal'],
-    relatedEvents: ['1', '3', '4'],
-    tags: ['finance', 'education', 'workshop']
-  },
-  {
-    id: '3',
-    title: "Community Iftar Gathering",
-    description: "Join us for a blessed community iftar during Ramadan",
-    date: "March 15, 2024",
-    time: "6:45 PM - 8:30 PM",
-    location: "Masjid Al-Noor Main Hall",
-    organizer: "Community Volunteers",
-    organizationLogo: '/placeholder.svg',
-    attendees: 156,
-    category: "community" as const,
-    image: iftarImg,
-    interestedFriends: ['Samir', 'Aisha'],
-    relatedEvents: ['1', '2', '4'],
-    tags: ['iftar', 'ramadan', 'community']
-  },
-  {
-    id: '4',
-    title: "Youth Quran Competition",
-    description: "Annual Quran recitation and memorization competition for youth",
-    date: "January 20, 2024",
-    time: "10:00 AM - 4:00 PM",
-    location: "Islamic Education Center",
-    organizer: "Youth Islamic Society",
-    organizationLogo: '/placeholder.svg',
-    attendees: 45,
-    category: "education" as const,
-    image: quranImg,
-    interestedFriends: ['Yusuf', 'Maryam'],
-    relatedEvents: ['1', '2', '3'],
-    tags: ['quran', 'youth', 'competition']
-  },
-  // New events
-  {
-    id: '5',
-    title: "Brother's Basketball Session",
-    description: "Weekly basketball session for brothers to bond and stay fit.",
-    date: "February 10, 2025",
-    time: "7:00 PM - 9:00 PM",
-    location: "Community Sports Hall",
-    organizer: "Brotherhood Sports",
-    organizationLogo: '/placeholder.svg',
-    attendees: 30,
-    category: "community" as const,
-    image: basketballImg,
-    interestedFriends: ['Ali', 'Omar'],
-    relatedEvents: ['1', '2', '3'],
-    tags: [
-      "BrothersOnly",
-      "FaithAndFitness",
-      "BrotherhoodInMotion",
-      "MuslimAthletes",
-      "basketball"
-    ]
-  },
-  {
-    id: '6',
-    title: "Sister's Baking Class",
-    description: "A fun halal baking class for sisters to learn and connect.",
-    date: "February 15, 2025",
-    time: "3:00 PM - 5:00 PM",
-    location: "Community Kitchen",
-    organizer: "Sisters Circle",
-    organizationLogo: '/placeholder.svg',
-    attendees: 18,
-    category: "community" as const,
-    image: bakingImg,
-    interestedFriends: ['Amina', 'Sara'],
-    relatedEvents: ['1', '2', '3'],
-    tags: [
-      "SistersOnly",
-      "Baking",
-      "HalalSweets",
-      "SistersWhoBake"
-    ]
-  },
-  {
-    id: '7',
-    title: "My Hack",
-    description: "Muslim hackathon for youth to code for change and the Ummah.",
-    date: "March 1, 2025",
-    time: "9:00 AM - 9:00 PM",
-    location: "Tech Innovation Center",
-    organizer: "Youth Tech",
-    organizationLogo: '/placeholder.svg',
-    attendees: 60,
-    category: "education" as const,
-    image: hackImg,
-    interestedFriends: ['Yusuf', 'Maryam'],
-    relatedEvents: ['1', '2', '3'],
-    tags: [
-      "MuslimHackathon",
-      "CodeForChange",
-      "DeenAndDevelopment",
-      "HackForUmmah",
-      "YouthTechChallenge",
-      "MyHack2025"
-    ]
-  }
-];
+import { useEvents } from '@/components/EventContext';
 
 // Dummy communities list (replace with shared source if needed)
 const communitiesList = [
@@ -160,6 +27,7 @@ const communitiesList = [
 ];
 
 const Events = () => {
+  const { events, addEvent } = useEvents();
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [form, setForm] = useState({
@@ -173,10 +41,9 @@ const Events = () => {
     location: '',
     description: ''
   });
-  const [events, setEvents] = useState(allEvents);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Extract all unique tags from allEvents
+  // Extract all unique tags from events
   const allTags = Array.from(new Set(events.flatMap(e => e.tags || [])));
   // Filter events by selected tags
   const filteredEvents = !selectedTag
@@ -224,13 +91,13 @@ const Events = () => {
       organizer: form.organizer,
       organizationLogo: '/placeholder.svg',
       attendees: 0,
-      category: 'community' as const,
+      category: 'community',
       image: form.image,
       interestedFriends: [],
       relatedEvents: [],
       tags: form.tags
     };
-    setEvents([newEvent, ...events]);
+    addEvent(newEvent);
     handleDrawerClose();
   };
 

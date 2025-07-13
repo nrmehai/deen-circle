@@ -9,9 +9,11 @@ import { Calendar, Compass, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useProfileStore } from '@/stores/profileStore';
+import { useEvents } from '@/components/EventContext';
 
 const Index = () => {
   const { name, profileImage } = useProfileStore();
+  const { events } = useEvents();
   
   // Sample friends stories data
   const friendsStories = [
@@ -130,38 +132,8 @@ const Index = () => {
     setSamplePosts(prev => [newPost, ...prev]);
   };
 
-  const upcomingEvents = [
-    {
-      title: "Friday Jummah Prayer",
-      description: "Weekly congregation prayer with khutbah by Imam Abdullah",
-      date: "December 15, 2024",
-      time: "1:00 PM - 2:00 PM",
-      location: "Masjid Al-Noor, 123 Main St",
-      organizer: "Masjid Al-Noor",
-      attendees: 234,
-      category: "prayer" as const
-    },
-    {
-      title: "Islamic Finance Workshop",
-      description: "Learn about halal investment strategies and Islamic banking principles",
-      date: "December 18, 2024",
-      time: "7:00 PM - 9:00 PM",
-      location: "Community Center Hall",
-      organizer: "Islamic Business Association",
-      attendees: 67,
-      category: "education" as const
-    },
-    {
-      title: "Charity Drive for Refugees",
-      description: "Collecting winter clothes and essential items for refugee families",
-      date: "December 20, 2024",
-      time: "10:00 AM - 4:00 PM",
-      location: "Multiple locations",
-      organizer: "Ummah Care Foundation",
-      attendees: 156,
-      category: "charity" as const
-    }
-  ];
+  // Use real events for upcomingEvents
+  const upcomingEvents = events.slice(0, 3); // or filter as needed
 
   return (
     <div className="min-h-screen bg-gradient-peaceful">

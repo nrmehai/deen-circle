@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import { useEvents } from '@/components/EventContext';
 
 const Discover = () => {
+  const { events } = useEvents();
   const trendingTopics = [
     { name: "#Ramadan2024", posts: 1234 },
     { name: "#IslamicEducation", posts: 892 },
@@ -37,26 +39,8 @@ const Discover = () => {
     }
   ];
 
-  const upcomingEvents = [
-    {
-      title: "Friday Khutbah",
-      time: "1:30 PM",
-      location: "Central Mosque",
-      attendees: 150
-    },
-    {
-      title: "Youth Basketball",
-      time: "6:00 PM",
-      location: "Community Center",
-      attendees: 24
-    },
-    {
-      title: "Quran Study Circle",
-      time: "7:30 PM",
-      location: "Library Hall",
-      attendees: 18
-    }
-  ];
+  // Use real events for upcomingEvents
+  const upcomingEvents = events.slice(0, 3); // or filter as needed
 
   return (
     <div className="min-h-screen bg-background">

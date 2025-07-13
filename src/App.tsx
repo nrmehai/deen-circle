@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import CommunityPage from "./pages/CommunityPage";
 import CoursePage from "./pages/CoursePage";
 import { createContext, useContext, useState } from "react";
+import { EventProvider } from '@/components/EventContext';
 
 const queryClient = new QueryClient();
 
@@ -25,23 +26,25 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/events/:eventId" element={<EventDetail />} />
-          <Route path="/learning" element={<Learning />} />
-          <Route path="/charity" element={<Charity />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/discover" element={<Discover />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/community/:slug" element={<CommunityPage />} />
-          <Route path="/learning/:slug" element={<CoursePage />} />
-          <Route path="/profile" element={<Profile />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <EventProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/events/:eventId" element={<EventDetail />} />
+            <Route path="/learning" element={<Learning />} />
+            <Route path="/charity" element={<Charity />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/discover" element={<Discover />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/community/:slug" element={<CommunityPage />} />
+            <Route path="/learning/:slug" element={<CoursePage />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </EventProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

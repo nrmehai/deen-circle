@@ -6,48 +6,17 @@ import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { Link } from 'react-router-dom';
 import TagBadge from "@/components/TagBadge";
-
-const courses = [
-  {
-    slug: "quran-recitation-basics",
-    title: "Quran Recitation Basics",
-    instructor: "Sheikh Ahmad",
-    students: 45,
-    rating: 4.9,
-    duration: "6 weeks",
-    tags: ["Quran", "Recitation"],
-    image: "https://productivemuslim.com/wp-content/uploads/2012/09/Quran-2.jpg"
-  },
-  {
-    slug: "islamic-history",
-    title: "Islamic History",
-    instructor: "Dr. Fatima",
-    students: 32,
-    rating: 4.8,
-    duration: "8 weeks",
-    tags: ["History"],
-    image: "https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/sites/default/files/20200201_BKP506.jpg"
-  },
-  {
-    slug: "arabic-language-foundation",
-    title: "Arabic Language Foundation",
-    instructor: "Ustaz Muhammad",
-    students: 28,
-    rating: 4.7,
-    duration: "12 weeks",
-    tags: ["Language", "Arabic"],
-    image: "https://lh7-us.googleusercontent.com/X_wsvRJsXMjDw8zlNIQhr_5KhtgZQl2o3qTAnh5ESRCfGIPbw427C2ZTH8kfY7MdlL83MaxObI_oP_dic_q98-7InA1Zn_3gKhVcX0CEFzdp2YnOWOxM9DUQx_cbjo0SP1BnWQ_IMfA-UtqGfLybluM"
-  }
-];
+import { useEvents } from '@/components/EventContext';
 
 const Learning = () => {
+  const { events } = useEvents();
   const [selectedTag, setSelectedTag] = useState(null);
 
-  const allTags = Array.from(new Set(courses.flatMap(course => course.tags)));
+  const allTags = Array.from(new Set(events.flatMap(event => event.tags)));
 
-  const filteredCourses = selectedTag
-    ? courses.filter(course => course.tags.includes(selectedTag))
-    : courses;
+  const filteredEvents = selectedTag
+    ? events.filter(event => event.tags.includes(selectedTag))
+    : events;
 
   return (
     <div className="min-h-screen bg-background">
@@ -75,20 +44,20 @@ const Learning = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredCourses.map((course, index) => (
-                <Link key={index} to={`/learning/${course.slug}`}>
+              {filteredEvents.map((event, index) => (
+                <Link key={index} to={`/learning/${event.slug}`}>
                   <Card className="overflow-hidden hover:shadow-soft transition-shadow cursor-pointer">
                     <img
-                      src={course.image}
-                      alt={course.title}
+                      src={event.image}
+                      alt={event.title}
                       className="w-full h-40 object-cover"
                     />
                     <div className="p-4">
-                      <h3 className="font-semibold text-foreground mb-2">{course.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
+                      <h3 className="font-semibold text-foreground mb-2">{event.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-3">by {event.instructor}</p>
 
                       <div className="flex flex-wrap gap-2 mb-3">
-                        {course.tags.map((tag, idx) => (
+                        {event.tags.map((tag, idx) => (
                           <span
                             key={idx}
                             className="flex items-center text-xs bg-accent text-background rounded-full px-2 py-0.5"
@@ -102,15 +71,15 @@ const Learning = () => {
                       <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
                         <div className="flex items-center gap-1">
                           <Users className="w-4 h-4" />
-                          {course.students}
+                          {event.students}
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-4 h-4 fill-current text-accent" />
-                          {course.rating}
+                          {event.rating}
                         </div>
                         <div className="flex items-center gap-1">
                           <Calendar className="w-4 h-4" />
-                          {course.duration}
+                          {event.duration}
                         </div>
                       </div>
 
