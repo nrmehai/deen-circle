@@ -11,6 +11,7 @@ import mosqueImg from '@/assets/mosque.jpg';
 import financeImg from '@/assets/finnances.jpg';
 import iftarImg from '@/assets/iftar.jpg';
 import quranImg from '@/assets/quran.jpg';
+import { allEvents } from './Events';
 
 interface Event {
   id: string;
@@ -32,62 +33,25 @@ const EventDetail = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
 
-  // Mock event data - In a real app, this would come from an API
-  const event: Event = {
-    id: '1',
-    title: 'Friday Jummah Prayer',
-    description: 'Weekly congregation prayer with khutbah by Imam Abdullah. Join us for this blessed gathering where we will discuss the importance of community and brotherhood in Islam.',
-    date: 'December 15, 2024',
-    time: '1:00 PM - 2:00 PM',
-    location: 'Masjid Al-Noor, 123 Main St',
-    organizer: 'Masjid Al-Noor',
-    organizationLogo: '/placeholder.svg',
-    attendees: 234,
-    category: 'prayer',
-    image: mosqueImg, // imported mosque image
-    interestedFriends: ['Ahmed', 'Fatima', 'Omar'],
-    relatedEvents: ['2', '3', '4']
-  };
+  // Find the event by id from the imported allEvents array
+  const event = allEvents.find(e => e.id === eventId);
 
-  // Mock related events data
-  const relatedEvents = [
-    {
-      id: '2',
-      title: 'Islamic Finance Workshop',
-      description: 'Learn about halal investment strategies',
-      date: 'December 18, 2024',
-      time: '7:00 PM - 9:00 PM',
-      location: 'Community Center Hall',
-      organizer: 'Islamic Business Association',
-      attendees: 120,
-      category: 'education',
-      image: financeImg, // imported finance image
-    },
-    {
-      id: '3',
-      title: 'Community Iftar Gathering',
-      description: 'Join us for a blessed community iftar during Ramadan',
-      date: 'March 15, 2024',
-      time: '6:45 PM - 8:30 PM',
-      location: 'Masjid Al-Noor Main Hall',
-      organizer: 'Community Volunteers',
-      attendees: 156,
-      category: 'community',
-      image: iftarImg, // imported iftar image
-    },
-    {
-      id: '4',
-      title: 'Youth Quran Competition',
-      description: 'Annual Quran recitation and memorization competition for youth',
-      date: 'January 20, 2024',
-      time: '10:00 AM - 4:00 PM',
-      location: 'Islamic Education Center',
-      organizer: 'Youth Islamic Society',
-      attendees: 45,
-      category: 'education',
-      image: quranImg, // imported Quran image
-    }
-  ];
+  if (!event) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="flex">
+          <Sidebar />
+          <main className="flex-1 p-6 flex items-center justify-center">
+            <h1 className="text-2xl font-bold">Event not found</h1>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
+  // Related events: filter out the current event
+  const relatedEvents = allEvents.filter(e => e.id !== event.id).slice(0, 3);
 
   const getCategoryColor = (category: Event['category']) => {
     const colors = {
