@@ -12,6 +12,7 @@ import financeImg from '@/assets/finnances.jpg';
 import iftarImg from '@/assets/iftar.jpg';
 import quranImg from '@/assets/quran.jpg';
 import { allEvents } from './Events';
+import TagBadge from "@/components/TagBadge";
 
 interface Event {
   id: string;
@@ -27,6 +28,7 @@ interface Event {
   image?: string;
   interestedFriends: string[];
   relatedEvents: string[];
+  tags?: string[];
 }
 
 const EventDetail = () => {
@@ -94,6 +96,12 @@ const EventDetail = () => {
                   {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
                 </Badge>
                 <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
+                {/* Tags */}
+                <div className="flex flex-wrap mb-4">
+                  {Array.isArray(event.tags) && event.tags.map((tag) => (
+                    <TagBadge key={tag} tag={tag} />
+                  ))}
+                </div>
                 <p className="text-muted-foreground mb-6">{event.description}</p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
