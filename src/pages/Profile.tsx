@@ -168,11 +168,12 @@ const Profile = () => {
     }
   ];
 
-  // Single samplePosts declaration that uses the dynamic name from store
+  // Single samplePosts declaration that uses the dynamic name and profileImage from store
   const samplePosts = [
     {
       author: {
         name: name,
+        avatar: profileImage, // Add dynamic profile image
         location: "Islamic Center of Maryland"
       },
       content: {
@@ -185,7 +186,8 @@ const Profile = () => {
     },
     {
       author: {
-        name: name
+        name: name,
+        avatar: profileImage // Add dynamic profile image
       },
       content: {
         text: "Does anyone know of any halal spots near Germantown-Rockville area?",
