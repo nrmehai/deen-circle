@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import CreatePost from "@/components/CreatePost";
@@ -11,6 +12,7 @@ import { useProfileStore } from '@/stores/profileStore';
 
 const Index = () => {
   const { name, profileImage } = useProfileStore();
+  
   // Sample friends stories data
   const friendsStories = [
     {
@@ -87,23 +89,8 @@ const Index = () => {
     }
   ];
 
-  // Sample data for demonstration
-  const samplePosts = [
-    {
-      author: {
-        name: name, // Use dynamic name from store
-        avatar: profileImage, // Use dynamic profile image from store
-        isVerified: false,
-        location: "Local Community"
-      },
-      content: {
-        text: "Alhamdulillah for another blessed day. May Allah grant us all strength and guidance in our daily lives. 🤲",
-        type: "regular" as const
-      },
-      timestamp: "1 hour ago",
-      likes: 45,
-      comments: 8
-    },
+  // Sample data for demonstration - now using state
+  const initialPosts = [
     {
       author: {
         name: "Dr. Ahmad Hassan",
@@ -145,6 +132,12 @@ const Index = () => {
       comments: 12
     }
   ];
+
+  const [samplePosts, setSamplePosts] = useState(initialPosts);
+
+  const handleNewPost = (newPost: any) => {
+    setSamplePosts(prev => [newPost, ...prev]);
+  };
 
   const upcomingEvents = [
     {
@@ -245,7 +238,7 @@ const Index = () => {
 
           {/* Create Post */}
           <div className="mb-6">
-            <CreatePost />
+            <CreatePost handleNewPost={handleNewPost} />
           </div>
 
           {/* Main Feed - Responsive Layout */}

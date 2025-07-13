@@ -1,7 +1,8 @@
-import { Heart, MessageCircle, Share2, BookmarkPlus, MoreHorizontal } from "lucide-react";
+import { Heart, MessageCircle, Share2, BookmarkPlus, MoreHorizontal, Calendar, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 interface PostCardProps {
   author: {
@@ -14,6 +15,12 @@ interface PostCardProps {
     text?: string;
     image?: string;
     type?: 'dua' | 'verse' | 'hadith' | 'event' | 'regular';
+    relatedEvent?: {
+      id: string;
+      title: string;
+      date: string;
+      location: string;
+    };
   };
   timestamp: string;
   likes: number;
@@ -21,43 +28,23 @@ interface PostCardProps {
 }
 
 const PostCard = ({ author, content, timestamp, likes, comments }: PostCardProps) => {
-  const getPostTypeStyle = () => {
-    switch (content.type) {
-      case 'dua':
-        return 'border-l-4 border-l-accent bg-accent/5';
-      case 'verse':
-        return 'border-l-4 border-l-primary bg-primary/5';
-      case 'hadith':
-        return 'border-l-4 border-l-primary-glow bg-primary-glow/5';
-      case 'event':
-        return 'border-l-4 border-l-destructive bg-destructive/5';
-      default:
-        return '';
-    }
-  };
-
-  const getPostTypeLabel = () => {
-    switch (content.type) {
-      case 'dua':
-        return '🤲 Dua';
-      case 'verse':
-        return '📖 Quran Verse';
-      case 'hadith':
-        return '☪️ Hadith';
-      case 'event':
-        return '📅 Event';
-      default:
-        return null;
+  const getTypeColor = (type?: string) => {
+    switch (type) {
+      case 'dua': return 'bg-green-100 text-green-800';
+      case 'verse': return 'bg-blue-100 text-blue-800';
+      case 'hadith': return 'bg-purple-100 text-purple-800';
+      case 'event': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   return (
-    <Card className="bg-card shadow-soft border-border hover:shadow-elevated transition-shadow duration-300">
-      {/* Header */}
-      <div className="p-4 pb-3">
-        <div className="flex items-center justify-between">
+    <Card className="bg-card shadow-soft border-border hover:shadow-elevated transition-all duration-300">
+      <div className="p-6">
+        {/* Post Header */}
+        <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <Avatar className="w-10 h-10">
+            <Avatar className="w-12 h-12">
               <AvatarImage src={author.avatar} />
               <AvatarFallback className="bg-primary text-primary-foreground">
                 {author.name.charAt(0)}
@@ -65,11 +52,16 @@ const PostCard = ({ author, content, timestamp, likes, comments }: PostCardProps
             </Avatar>
             <div>
               <div className="flex items-center space-x-2">
-                <h4 className="font-semibold text-foreground">{author.name}</h4>
+                <h3 className="font-semibold text-foreground">{author.name}</h3>
                 {author.isVerified && (
-                  <div className="w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+                  <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
                     <span className="text-primary-foreground text-xs">✓</span>
                   </div>
+                )}
+                {content.type && content.type !== 'regular' && (
+                  <Badge className={getTypeColor(content.type)}>
+                    {content.type.charAt(0).toUpperCase() + content.type.slice(1)}
+                  </Badge>
                 )}
               </div>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -83,55 +75,70 @@ const PostCard = ({ author, content, timestamp, likes, comments }: PostCardProps
               </div>
             </div>
           </div>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="sm">
             <MoreHorizontal className="w-4 h-4" />
           </Button>
         </div>
-      </div>
 
-      {/* Content Type Label */}
-      {getPostTypeLabel() && (
-        <div className="px-4 pb-2">
-          <span className="inline-block px-2 py-1 text-xs font-medium bg-muted rounded-full">
-            {getPostTypeLabel()}
-          </span>
-        </div>
-      )}
-
-      {/* Content */}
-      <div className={`px-4 pb-3 ${getPostTypeStyle()}`}>
+        {/* Post Content */}
         {content.text && (
-          <p className="text-foreground leading-relaxed mb-3">{content.text}</p>
+          <div className="mb-4">
+            <p className="text-foreground leading-relaxed whitespace-pre-wrap">{content.text}</p>
+          </div>
         )}
+
+        {/* Post Image */}
         {content.image && (
-          <div className="rounded-lg overflow-hidden">
+          <div className="mb-4">
             <img 
               src={content.image} 
               alt="Post content" 
-              className="w-full h-auto object-cover"
+              className="w-full max-h-96 object-cover rounded-lg"
             />
           </div>
         )}
-      </div>
 
-      {/* Actions */}
-      <div className="px-4 py-3 border-t border-border">
-        <div className="flex items-center justify-between">
+        {/* Related Event */}
+        {content.relatedEvent && (
+          <div className="mb-4">
+            <Card className="bg-muted/50 border-l-4 border-l-primary">
+              <div className="p-4">
+                <div className="flex items-start space-x-3">
+                  <Calendar className="w-5 h-5 text-primary mt-0.5" />
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-foreground mb-1">{content.relatedEvent.title}</h4>
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                      <span>{content.relatedEvent.date}</span>
+                      <div className="flex items-center space-x-1">
+                        <MapPin className="w-3 h-3" />
+                        <span>{content.relatedEvent.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Post Actions */}
+        <div className="flex items-center justify-between pt-4 border-t border-border">
           <div className="flex items-center space-x-6">
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-accent">
-              <Heart className="w-4 h-4 mr-2" />
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-destructive">
+              <Heart className="w-5 h-5 mr-2" />
               {likes}
             </Button>
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
-              <MessageCircle className="w-4 h-4 mr-2" />
+              <MessageCircle className="w-5 h-5 mr-2" />
               {comments}
             </Button>
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
-              <Share2 className="w-4 h-4" />
+              <Share2 className="w-5 h-5 mr-2" />
+              Share
             </Button>
           </div>
-          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-accent">
-            <BookmarkPlus className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-primary">
+            <BookmarkPlus className="w-5 h-5" />
           </Button>
         </div>
       </div>
