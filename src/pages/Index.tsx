@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import CreatePost from "@/components/CreatePost";
 import PostCard from "@/components/PostCard";
 import EventCard from "@/components/EventCard";
+import GoogleCalendar from "@/components/GoogleCalendar";
 import { Calendar, Compass, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -172,17 +173,17 @@ const Index = () => {
         </div>
         
         {/* Main Content - Takes remaining space */}
-        <main className="flex-1 min-w-0 px-4 py-6 lg:px-8">
+        <main className="flex-1 min-w-0 px-4 py-4 lg:px-8">
           {/* Friends Stories Section - Horizontal Scroll */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-foreground mb-8">Your Circle</h2>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Your Circle</h2>
             
             {/* Horizontal Scroll Container */}
             <div className="overflow-x-auto scrollbar-hide">
               <div className="flex gap-6 pb-4 min-w-max">
                 {friendsStories.map((friend) => (
                   <div key={friend.id} className="flex-shrink-0 w-80 lg:w-96">
-                    <div className="flex items-center gap-6 p-6 lg:p-8 bg-card rounded-2xl shadow-elevated hover:shadow-lg transition-all duration-300 cursor-pointer border border-border/50 h-full">
+                    <div className="flex items-center gap-6 p-4 lg:p-6 bg-card rounded-2xl shadow-elevated hover:shadow-lg transition-all duration-300 cursor-pointer border border-border/50 h-full">
                       {/* Large Profile Picture */}
                       <div className="flex-shrink-0">
                         <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden border-4 border-primary/30 shadow-lg">
@@ -196,7 +197,7 @@ const Index = () => {
                       
                       {/* Event Info */}
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-xl lg:text-2xl font-bold text-foreground mb-3 lg:mb-4">{friend.name}</h3>
+                        <h3 className="text-xl lg:text-2xl font-bold text-foreground mb-2 lg:mb-3">{friend.name}</h3>
                         <div className="flex items-center gap-4">
                           {/* Event Image */}
                           <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
@@ -220,21 +221,21 @@ const Index = () => {
             </div>
             
             {/* Scroll Hint */}
-            <div className="text-center mt-4">
+            <div className="text-center mt-2">
               <p className="text-sm text-muted-foreground">← Scroll to see more friends →</p>
             </div>
           </div>
 
           {/* Create Post */}
-          <div className="mb-8">
+          <div className="mb-6">
             <CreatePost />
           </div>
 
           {/* Main Feed - Responsive Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Posts Feed - Takes more space */}
-            <div className="lg:col-span-3 space-y-8">
-              <div className="flex items-center justify-between mb-6">
+            <div className="lg:col-span-3 space-y-6">
+              <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-bold text-foreground">Community Feed</h2>
                 <Button variant="ghost" size="lg">
                   <TrendingUp className="w-5 h-5 mr-2" />
@@ -249,40 +250,8 @@ const Index = () => {
 
             {/* Right Sidebar Content */}
             <div className="lg:col-span-1 space-y-6">
-              {/* Upcoming Events */}
-              <Card className="p-6 bg-card shadow-soft">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-bold text-foreground flex items-center">
-                    <Calendar className="w-5 h-5 mr-2 text-primary" />
-                    Upcoming Events
-                  </h3>
-                  <Button variant="ghost" size="sm">
-                    <Compass className="w-4 h-4" />
-                  </Button>
-                </div>
-                <div className="space-y-4">
-                  {upcomingEvents.slice(0, 2).map((event, index) => (
-                    <div key={index} className="p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                      <h4 className="font-medium text-sm mb-2">{event.title}</h4>
-                      <p className="text-xs text-muted-foreground mb-3">{event.date}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground">{event.attendees} attending</span>
-                        <Button variant="spiritual" size="sm" className="text-xs px-3 py-1 h-7">
-                          Join
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Card>
-
-              {/* Featured Events */}
-              <div className="space-y-4">
-                <h3 className="font-bold text-foreground">Featured Events</h3>
-                {upcomingEvents.slice(0, 2).map((event, index) => (
-                  <EventCard key={index} {...event} />
-                ))}
-              </div>
+              {/* Google Calendar */}
+              <GoogleCalendar />
             </div>
           </div>
         </main>

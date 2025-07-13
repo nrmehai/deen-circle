@@ -45,7 +45,7 @@ const Sidebar = () => {
     setIsLoading(true);
     try {
       const timezone = getUserTimezone();
-      const times = await fetchPrayerTimes(locationData.lat, locationData.lng, timezone);
+      const times = await fetchPrayerTimes(locationData.lat, locationData.lng, Number(timezone));
       setPrayerTimes(times);
       setLocationInfo(locationData.address || 'Selected Location');
     } catch (error) {
@@ -65,7 +65,7 @@ const Sidebar = () => {
             const times = await fetchPrayerTimes(
               position.coords.latitude,
               position.coords.longitude,
-              timezone
+              Number(timezone)
             );
             setPrayerTimes(times);
             setLocationInfo('Current Location');
@@ -161,12 +161,6 @@ const Sidebar = () => {
             )}
           </div>
         </Card>
-
-        {/* Quick Settings */}
-        <Button variant="ghost" className="w-full justify-start">
-          <Settings className="w-5 h-5 mr-3" />
-          Settings
-        </Button>
       </div>
     </aside>
   );
