@@ -3,12 +3,87 @@ import Sidebar from "@/components/Sidebar";
 import CreatePost from "@/components/CreatePost";
 import PostCard from "@/components/PostCard";
 import EventCard from "@/components/EventCard";
-import heroImage from "@/assets/hero-islamic.jpg";
 import { Calendar, Compass, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
+  // Sample friends stories data
+  const friendsStories = [
+    {
+      id: 1,
+      name: "Amina",
+      profilePicture: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Finance Workshop",
+        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=150&h=150&fit=crop"
+      }
+    },
+    {
+      id: 2,
+      name: "Omar",
+      profilePicture: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Quran Study Circle",
+        image: "https://images.unsplash.com/photo-1585036156171-384164a8c675?w=150&h=150&fit=crop"
+      }
+    },
+    {
+      id: 3,
+      name: "Fatima",
+      profilePicture: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Charity Drive",
+        image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=150&h=150&fit=crop"
+      }
+    },
+    {
+      id: 4,
+      name: "Ahmed",
+      profilePicture: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Iftar Gathering",
+        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=150&h=150&fit=crop"
+      }
+    },
+    {
+      id: 5,
+      name: "Zainab",
+      profilePicture: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Prayer Circle",
+        image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=150&h=150&fit=crop"
+      }
+    },
+    {
+      id: 6,
+      name: "Hassan",
+      profilePicture: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Youth Meetup",
+        image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=150&h=150&fit=crop"
+      }
+    },
+    {
+      id: 7,
+      name: "Layla",
+      profilePicture: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Community Dinner",
+        image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=150&h=150&fit=crop"
+      }
+    },
+    {
+      id: 8,
+      name: "Yusuf",
+      profilePicture: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face",
+      event: {
+        title: "Islamic Art Class",
+        image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=150&h=150&fit=crop"
+      }
+    }
+  ];
+
   // Sample data for demonstration
   const samplePosts = [
     {
@@ -91,38 +166,78 @@ const Index = () => {
       <Header />
       
       <div className="flex">
-        <Sidebar />
+        {/* Sidebar - Fixed width */}
+        <div className="flex-shrink-0">
+          <Sidebar />
+        </div>
         
-        {/* Main Content */}
-        <main className="flex-1 max-w-4xl mx-auto p-6">
-          {/* Hero Section */}
-          <div className="relative mb-8 rounded-xl overflow-hidden shadow-elevated">
-            <div 
-              className="h-64 bg-cover bg-center relative"
-              style={{ backgroundImage: `url(${heroImage})` }}
-            >
-              <div className="absolute inset-0 bg-primary/60 flex items-center justify-center">
-                <div className="text-center text-primary-foreground">
-                  <h1 className="text-4xl font-bold mb-2">Assalamu Alaikum</h1>
-                  <p className="text-xl opacity-90">Welcome to your Islamic community hub</p>
-                </div>
+        {/* Main Content - Takes remaining space */}
+        <main className="flex-1 min-w-0 px-4 py-6 lg:px-8">
+          {/* Friends Stories Section - Horizontal Scroll */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-foreground mb-8">Your Circle</h2>
+            
+            {/* Horizontal Scroll Container */}
+            <div className="overflow-x-auto scrollbar-hide">
+              <div className="flex gap-6 pb-4 min-w-max">
+                {friendsStories.map((friend) => (
+                  <div key={friend.id} className="flex-shrink-0 w-80 lg:w-96">
+                    <div className="flex items-center gap-6 p-6 lg:p-8 bg-card rounded-2xl shadow-elevated hover:shadow-lg transition-all duration-300 cursor-pointer border border-border/50 h-full">
+                      {/* Large Profile Picture */}
+                      <div className="flex-shrink-0">
+                        <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden border-4 border-primary/30 shadow-lg">
+                          <img 
+                            src={friend.profilePicture} 
+                            alt={friend.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Event Info */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-xl lg:text-2xl font-bold text-foreground mb-3 lg:mb-4">{friend.name}</h3>
+                        <div className="flex items-center gap-4">
+                          {/* Event Image */}
+                          <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-md">
+                            <img 
+                              src={friend.event.image} 
+                              alt={friend.event.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          {/* Event Title */}
+                          <div className="min-w-0">
+                            <p className="text-base lg:text-lg font-semibold text-foreground mb-1">{friend.event.title}</p>
+                            <p className="text-sm text-muted-foreground">Attending this event</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
+            </div>
+            
+            {/* Scroll Hint */}
+            <div className="text-center mt-4">
+              <p className="text-sm text-muted-foreground">← Scroll to see more friends →</p>
             </div>
           </div>
 
           {/* Create Post */}
-          <div className="mb-6">
+          <div className="mb-8">
             <CreatePost />
           </div>
 
-          {/* Main Feed */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Posts Feed */}
-            <div className="lg:col-span-2 space-y-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-foreground">Community Feed</h2>
-                <Button variant="ghost" size="sm">
-                  <TrendingUp className="w-4 h-4 mr-2" />
+          {/* Main Feed - Responsive Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Posts Feed - Takes more space */}
+            <div className="lg:col-span-3 space-y-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-foreground">Community Feed</h2>
+                <Button variant="ghost" size="lg">
+                  <TrendingUp className="w-5 h-5 mr-2" />
                   Trending
                 </Button>
               </div>
@@ -132,12 +247,12 @@ const Index = () => {
               ))}
             </div>
 
-            {/* Sidebar Content */}
-            <div className="space-y-6">
+            {/* Right Sidebar Content */}
+            <div className="lg:col-span-1 space-y-6">
               {/* Upcoming Events */}
-              <Card className="p-4 bg-card shadow-soft">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-foreground flex items-center">
+              <Card className="p-6 bg-card shadow-soft">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="font-bold text-foreground flex items-center">
                     <Calendar className="w-5 h-5 mr-2 text-primary" />
                     Upcoming Events
                   </h3>
@@ -145,14 +260,14 @@ const Index = () => {
                     <Compass className="w-4 h-4" />
                   </Button>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {upcomingEvents.slice(0, 2).map((event, index) => (
-                    <div key={index} className="p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                      <h4 className="font-medium text-sm mb-1">{event.title}</h4>
-                      <p className="text-xs text-muted-foreground mb-2">{event.date}</p>
+                    <div key={index} className="p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                      <h4 className="font-medium text-sm mb-2">{event.title}</h4>
+                      <p className="text-xs text-muted-foreground mb-3">{event.date}</p>
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-muted-foreground">{event.attendees} attending</span>
-                        <Button variant="spiritual" size="sm" className="text-xs px-2 py-1 h-6">
+                        <Button variant="spiritual" size="sm" className="text-xs px-3 py-1 h-7">
                           Join
                         </Button>
                       </div>
@@ -163,7 +278,7 @@ const Index = () => {
 
               {/* Featured Events */}
               <div className="space-y-4">
-                <h3 className="font-semibold text-foreground">Featured Events</h3>
+                <h3 className="font-bold text-foreground">Featured Events</h3>
                 {upcomingEvents.slice(0, 2).map((event, index) => (
                   <EventCard key={index} {...event} />
                 ))}
