@@ -76,6 +76,73 @@ export const allEvents = [
     interestedFriends: ['Yusuf', 'Maryam'],
     relatedEvents: ['1', '2', '3'],
     tags: ['quran', 'youth', 'competition']
+  },
+  // New events
+  {
+    id: '5',
+    title: "Brother's Basketball Session",
+    description: "Weekly basketball session for brothers to bond and stay fit.",
+    date: "February 10, 2025",
+    time: "7:00 PM - 9:00 PM",
+    location: "Community Sports Hall",
+    organizer: "Brotherhood Sports",
+    organizationLogo: '/placeholder.svg',
+    attendees: 30,
+    category: "community" as const,
+    image: mosqueImg,
+    interestedFriends: ['Ali', 'Omar'],
+    relatedEvents: ['1', '2', '3'],
+    tags: [
+      "BrothersOnly",
+      "FaithAndFitness",
+      "BrotherhoodInMotion",
+      "MuslimAthletes",
+      "basketball"
+    ]
+  },
+  {
+    id: '6',
+    title: "Sister's Baking Class",
+    description: "A fun halal baking class for sisters to learn and connect.",
+    date: "February 15, 2025",
+    time: "3:00 PM - 5:00 PM",
+    location: "Community Kitchen",
+    organizer: "Sisters Circle",
+    organizationLogo: '/placeholder.svg',
+    attendees: 18,
+    category: "community" as const,
+    image: iftarImg,
+    interestedFriends: ['Amina', 'Sara'],
+    relatedEvents: ['1', '2', '3'],
+    tags: [
+      "SistersOnly",
+      "Baking",
+      "HalalSweets",
+      "SistersWhoBake"
+    ]
+  },
+  {
+    id: '7',
+    title: "My Hack",
+    description: "Muslim hackathon for youth to code for change and the Ummah.",
+    date: "March 1, 2025",
+    time: "9:00 AM - 9:00 PM",
+    location: "Tech Innovation Center",
+    organizer: "Youth Tech",
+    organizationLogo: '/placeholder.svg',
+    attendees: 60,
+    category: "education" as const,
+    image: financeImg,
+    interestedFriends: ['Yusuf', 'Maryam'],
+    relatedEvents: ['1', '2', '3'],
+    tags: [
+      "MuslimHackathon",
+      "CodeForChange",
+      "DeenAndDevelopment",
+      "HackForUmmah",
+      "YouthTechChallenge",
+      "MyHack2025"
+    ]
   }
 ];
 
@@ -128,17 +195,19 @@ const Events = () => {
             </div>
           </div>
           {/* Tag Filter UI */}
-          <div className="mb-4 flex flex-wrap gap-2">
-            {allTags.map(tag => (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => toggleTag(tag)}
-                className="focus:outline-none"
-              >
-                <TagBadge tag={tag} selected={selectedTag === tag} />
-              </button>
-            ))}
+          <div className="mb-4 mt-1 overflow-x-auto custom-scrollbar">
+            <div className="flex flex-nowrap gap-2 min-w-max">
+              {allTags.map(tag => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => toggleTag(tag)}
+                  className="focus:outline-none"
+                >
+                  <TagBadge tag={tag} selected={selectedTag === tag} />
+                </button>
+              ))}
+            </div>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredEvents.map((event) => (
