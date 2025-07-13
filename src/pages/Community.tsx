@@ -6,6 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CommunityCard from "@/components/CommunityCard"
 import { Card } from "@/components/ui/card";
+import mosqueImg from "@/assets/mosque.jpg";
+import financeImg from "@/assets/finnances.jpg";
+import iftarImg from "@/assets/iftar.jpg";
+import quranImg from "@/assets/quran.jpg";
 import { Link } from "react-router-dom";
 
 
@@ -21,7 +25,7 @@ const Community = () => {
     },
     {
       name: "UMD MSA",
-      description: "Muslim Student Assocciation at the University of Maryland!",
+      description: "Muslim Student Association at the University of Maryland!",
       location: "University of Maryland",
       attendees: 2701,
       image: "https://images.squarespace-cdn.com/content/v1/5a8b30b42278e78aeffd315f/6dbf46f1-d4cc-4650-a415-e195d5173030/logo.png",

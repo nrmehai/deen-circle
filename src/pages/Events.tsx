@@ -5,6 +5,11 @@ import { Calendar, Filter, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import heroImage from "@/assets/hero-islamic.jpg";
+import mosqueImg from "@/assets/mosque.jpg";
+import financeImg from "@/assets/finnances.jpg";
+import iftarImg from "@/assets/iftar.jpg";
+import quranImg from "@/assets/quran.jpg";
 
 const Events = () => {
   const allEvents = [
@@ -18,7 +23,7 @@ const Events = () => {
       organizer: "Masjid Al-Noor",
       attendees: 234,
       category: "prayer" as const,
-      image: "/prayer-mat.svg"
+      image: mosqueImg
     },
     {
       id: '2',
@@ -30,7 +35,7 @@ const Events = () => {
       organizer: "Islamic Finance Institute",
       attendees: 89,
       category: "education" as const,
-      image: "/finance-workshop.svg"
+      image: financeImg
     },
     {
       id: '3',
@@ -42,7 +47,7 @@ const Events = () => {
       organizer: "Community Volunteers",
       attendees: 156,
       category: "community" as const,
-      image: "/iftar-gathering.svg"
+      image: iftarImg
     },
     {
       id: '4',
@@ -54,7 +59,7 @@ const Events = () => {
       organizer: "Youth Islamic Society",
       attendees: 45,
       category: "education" as const,
-      image: "/quran-competition.svg"
+      image: quranImg
     }
   ];
 
