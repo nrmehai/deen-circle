@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+VITE_GOOGLE_MAPS_API_KEY
+VITE_GOOGLE_CALENDAR_API_KEY
