@@ -1,4 +1,4 @@
-# Nur Community Hub - Islamic Social Platform
+# Deen Circle - Islamic Social Platform
 
 A modern, halal social platform designed to connect Muslim communities through events, learning, charity, and meaningful interactions.
 
