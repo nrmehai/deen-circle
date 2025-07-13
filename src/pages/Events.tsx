@@ -14,6 +14,9 @@ import { useState } from "react";
 import basketballImg from "@/assets/basketball.jpg";
 import bakingImg from "@/assets/baking.jpg";
 import hackImg from "@/assets/hack.jpg";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import TagInput from "@/components/TagInput";
+import { useRef } from "react";
 
 export const allEvents = [
   {
@@ -149,17 +152,86 @@ export const allEvents = [
   }
 ];
 
+// Dummy communities list (replace with shared source if needed)
+const communitiesList = [
+  { name: "Islamic Center of Maryland" },
+  { name: "UMD MSA" },
+  { name: "YM Gaithersburg" }
+];
+
 const Events = () => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [form, setForm] = useState({
+    title: '',
+    organizer: '',
+    image: '',
+    imageFile: null as File | null,
+    tags: [] as string[],
+    date: '',
+    time: '',
+    location: '',
+    description: ''
+  });
+  const [events, setEvents] = useState(allEvents);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // Extract all unique tags from allEvents
-  const allTags = Array.from(new Set(allEvents.flatMap(e => e.tags || [])));
+  const allTags = Array.from(new Set(events.flatMap(e => e.tags || [])));
   // Filter events by selected tags
   const filteredEvents = !selectedTag
-    ? allEvents
-    : allEvents.filter(event => event.tags?.includes(selectedTag));
+    ? events
+    : events.filter(event => event.tags?.includes(selectedTag));
 
   const toggleTag = (tag: string) => {
     setSelectedTag(selectedTag === tag ? null : tag);
+  };
+
+  // Form handlers
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
+  const handleTagChange = (tags: string[]) => setForm(prev => ({ ...prev, tags }));
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setForm(prev => ({ ...prev, image: ev.target?.result as string, imageFile: file }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+    setForm({
+      title: '', organizer: '', image: '', imageFile: null, tags: [], date: '', time: '', location: '', description: ''
+    });
+  };
+  const handleCreateEvent = () => {
+    if (!form.title || !form.organizer || !form.image || !form.date || !form.time || !form.location || !form.description) {
+      alert('Please fill all required fields.');
+      return;
+    }
+    const newEvent = {
+      id: (events.length + 1).toString(),
+      title: form.title,
+      description: form.description,
+      date: form.date,
+      time: form.time,
+      location: form.location,
+      organizer: form.organizer,
+      organizationLogo: '/placeholder.svg',
+      attendees: 0,
+      category: 'community' as const,
+      image: form.image,
+      interestedFriends: [],
+      relatedEvents: [],
+      tags: form.tags
+    };
+    setEvents([newEvent, ...events]);
+    handleDrawerClose();
   };
 
   return (
@@ -174,7 +246,7 @@ const Events = () => {
                 <h1 className="text-3xl font-bold text-foreground mb-2">Events</h1>
                 <p className="text-muted-foreground">Discover and join Islamic events in your community</p>
               </div>
-              <Button className="bg-gradient-primary hover:bg-gradient-primary/90">
+              <Button className="bg-gradient-primary hover:bg-gradient-primary/90" onClick={() => setDrawerOpen(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 Create Event
               </Button>
@@ -212,6 +284,49 @@ const Events = () => {
               ))}
             </div>
           </div>
+          {/* Replace Drawer with Dialog for Create Event */}
+          <Dialog open={drawerOpen} onOpenChange={setDrawerOpen}>
+            <DialogContent className="max-w-md mx-auto w-full">
+              <DialogHeader>
+                <DialogTitle>Create a New Event</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-2 p-3 max-h-[70vh] overflow-y-auto">
+                <label className="block font-medium">Event Title</label>
+                <input name="title" value={form.title} onChange={handleFormChange} className="w-full border rounded p-2" />
+
+                <label className="block font-medium">Community/Organizer</label>
+                <select name="organizer" value={form.organizer} onChange={handleFormChange} className="w-full border rounded p-2">
+                  <option value="">Select a community</option>
+                  {communitiesList.map(c => (
+                    <option key={c.name} value={c.name}>{c.name}</option>
+                  ))}
+                </select>
+
+                <label className="block font-medium">Image</label>
+                <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} className="w-full" />
+                {form.image && <img src={form.image} alt="Preview" className="w-full h-32 object-cover rounded mt-2" />}
+
+                <label className="block font-medium">Tags</label>
+                <TagInput value={form.tags} onChange={handleTagChange} suggestions={allTags} />
+
+                <label className="block font-medium">Date</label>
+                <input type="date" name="date" value={form.date} onChange={handleFormChange} className="w-full border rounded p-2" />
+
+                <label className="block font-medium">Time</label>
+                <input type="time" name="time" value={form.time} onChange={handleFormChange} className="w-full border rounded p-2" />
+
+                <label className="block font-medium">Location</label>
+                <input name="location" value={form.location} onChange={handleFormChange} className="w-full border rounded p-2" />
+
+                <label className="block font-medium">Description</label>
+                <textarea name="description" value={form.description} onChange={handleFormChange} className="w-full border rounded p-2" rows={3} />
+              </div>
+              <div className="flex gap-2 justify-end p-3">
+                <Button onClick={handleCreateEvent}>Create Event</Button>
+                <Button variant="outline" onClick={handleDrawerClose}>Cancel</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredEvents.map((event) => (
               <EventCard key={event.id} {...event} />
