@@ -12,7 +12,7 @@ const Learning = () => {
       students: 45,
       rating: 4.9,
       duration: "6 weeks",
-      image: "/placeholder.svg"
+      image: "https://productivemuslim.com/wp-content/uploads/2012/09/Quran-2.jpg"
     },
     {
       title: "Islamic History",
@@ -20,7 +20,7 @@ const Learning = () => {
       students: 32,
       rating: 4.8,
       duration: "8 weeks",
-      image: "/placeholder.svg"
+      image: "https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/sites/default/files/20200201_BKP506.jpg"
     },
     {
       title: "Arabic Language Foundation",
@@ -28,7 +28,7 @@ const Learning = () => {
       students: 28,
       rating: 4.7,
       duration: "12 weeks",
-      image: "/placeholder.svg"
+      image: "https://lh7-us.googleusercontent.com/X_wsvRJsXMjDw8zlNIQhr_5KhtgZQl2o3qTAnh5ESRCfGIPbw427C2ZTH8kfY7MdlL83MaxObI_oP_dic_q98-7InA1Zn_3gKhVcX0CEFzdp2YnOWOxM9DUQx_cbjo0SP1BnWQ_IMfA-UtqGfLybluM"
     }
   ];
 
@@ -47,32 +47,36 @@ const Learning = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {courses.map((course, index) => (
                 <Card key={index} className="overflow-hidden hover:shadow-soft transition-shadow">
-                  <div className="aspect-video bg-gradient-peaceful"></div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-foreground mb-2">{course.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
-                    
-                    <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                      <div className="flex items-center gap-1">
-                        <Users className="w-4 h-4" />
-                        {course.students}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 fill-current text-accent" />
-                        {course.rating}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {course.duration}
-                      </div>
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-full h-40 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="font-semibold text-foreground mb-2">{course.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
+              
+                  <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                    <div className="flex items-center gap-1">
+                      <Users className="w-4 h-4" />
+                      {course.students}
                     </div>
-
-                    <Button variant="spiritual" className="w-full">
-                      <BookOpen className="w-4 h-4 mr-2" />
-                      Enroll Now
-                    </Button>
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-current text-accent" />
+                      {course.rating}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      {course.duration}
+                    </div>
                   </div>
-                </Card>
+              
+                  <Button variant="spiritual" className="w-full">
+                    <BookOpen className="w-4 h-4 mr-2" />
+                    Enroll Now
+                  </Button>
+                </div>
+              </Card>              
               ))}
             </div>
           </div>

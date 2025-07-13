@@ -1,12 +1,119 @@
 import { useState } from "react";
 import { Users } from "lucide-react";
+import PostCard from "@/components/PostCard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import EventCard from "@/components/EventCard";
 import Header from "@/components/Header";
+import CommunityCard from "@/components/CommunityCard"
 import Sidebar from "@/components/Sidebar";
 
 const Profile = () => {
-  const [activeTab, setActiveTab] = useState<"posts" | "groups">("posts");
+  const [activeTab, setActiveTab] = useState<"posts" | "groups" | "events">("posts");
+  const allEvents = [
+    {
+      id: '1',
+      title: "Friday Jummah Prayer",
+      description: "Weekly congregation prayer with khutbah by Imam Abdullah",
+      date: "December 15, 2024",
+      time: "1:00 PM - 2:00 PM",
+      location: "Masjid Al-Noor, 123 Main St",
+      organizer: "Masjid Al-Noor",
+      attendees: 234,
+      category: "prayer" as const,
+      image: "/prayer-mat.svg"
+    },
+    {
+      id: '2',
+      title: "Islamic Finance Workshop",
+      description: "Learn about halal investment strategies and Islamic banking principles",
+      date: "December 18, 2024",
+      time: "6:30 PM - 8:30 PM",
+      location: "Community Center Hall B",
+      organizer: "Islamic Finance Institute",
+      attendees: 89,
+      category: "education" as const,
+      image: "/finance-workshop.svg"
+    },
+    {
+      id: '3',
+      title: "Community Iftar Gathering",
+      description: "Join us for a blessed community iftar during Ramadan",
+      date: "March 15, 2024",
+      time: "6:45 PM - 8:30 PM",
+      location: "Masjid Al-Noor Main Hall",
+      organizer: "Community Volunteers",
+      attendees: 156,
+      category: "community" as const,
+      image: "/iftar-gathering.svg"
+    },
+    {
+      id: '4',
+      title: "Youth Quran Competition",
+      description: "Annual Quran recitation and memorization competition for youth",
+      date: "January 20, 2024",
+      time: "10:00 AM - 4:00 PM",
+      location: "Islamic Education Center",
+      organizer: "Youth Islamic Society",
+      attendees: 45,
+      category: "education" as const,
+      image: "/quran-competition.svg"
+    }
+  ];
+
+  const Communities = [
+    {
+      name: "Islamic Center of Maryland",
+      description: "A Masjid located in Gaithersburg Maryland",
+      location: "Gaithersburg",
+      attendees: 11932,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb6AofKf1cqE7Y4bl_FtQ5v1vUffdMGeQsEw&s",
+      category: "masjid" as const
+    },
+    {
+      name: "UMD MSA",
+      description: "Muslim Student Assocciation at the University of Maryland!",
+      location: "University of Maryland",
+      attendees: 2701,
+      image: "https://images.squarespace-cdn.com/content/v1/5a8b30b42278e78aeffd315f/6dbf46f1-d4cc-4650-a415-e195d5173030/logo.png",
+      category: "student organization" as const
+    },
+    {
+      name: "YM Gaithersburg",
+      description: "An organization located in Gaithersburg that works on building Muslim identity for the youth",
+      location: "Islamic Center of Maryland",
+      attendees: 78,
+      image: "https://ymsite.com/wp-content/uploads/2023/07/YM-Favicon.png",
+      category: "youth organization" as const
+    }
+  ];
+
+  const samplePosts = [
+    {
+      author: {
+        name: "Yahya Abdullah",
+        location: "Islamic Center of Maryland"
+      },
+      content: {
+        text: "Attending my first Hackathon at the Islamic Center of Maryland!",
+        type: "event" as const
+      },
+      timestamp: "1 day ago",
+      likes: 142,
+      comments: 28
+    },
+    {
+      author: {
+        name: "Yahya Abdullah"
+      },
+      content: {
+        text: "Does anyone know of any halal spots near Germantown-Rockville area?",
+      },
+      timestamp: "1 week ago",
+      likes: 89,
+      comments: 15
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -26,7 +133,7 @@ const Profile = () => {
                 </p>
                 <div className="flex gap-4 text-sm text-muted-foreground">
                   <span>Friends: <strong>42</strong></span>
-                  <span>Groups: <strong>5</strong></span>
+                  <span>Groups: <strong>3</strong></span>
                 </div>
               </div>
             </div>
@@ -37,13 +144,20 @@ const Profile = () => {
                 variant={activeTab === "posts" ? "default" : "ghost"}
                 onClick={() => setActiveTab("posts")}
               >
-                Posts
+                My Posts
               </Button>
               <Button
                 variant={activeTab === "groups" ? "default" : "ghost"}
                 onClick={() => setActiveTab("groups")}
               >
-                Groups
+                My Communities
+              </Button>
+
+              <Button
+                variant={activeTab === "events" ? "default" : "ghost"}
+                onClick={() => setActiveTab("events")}
+              >
+                My Events
               </Button>
             </div>
 
@@ -51,16 +165,31 @@ const Profile = () => {
             <div className="h-96 overflow-y-auto space-y-4">
               {activeTab === "posts" && (
                 <>
-                  <Card className="p-4">Going to my first Hackathon at the Islamic Center of Maryland!</Card>
+                  {samplePosts.map((post, index) => (
+                  <PostCard key={index} {...post} />
+                ))}
                 </>
               )}
               {activeTab === "groups" && (
-                <>
-                  <Card className="p-4">Islamic Center of Maryland</Card>
-                  <Card className="p-4">UMD MSA</Card>
-                  <Card className="p-4">YM Gaithersburg</Card>
-                </>
-              )}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {Communities.map((community, index) => (
+                    <CommunityCard key={index} {...community} />
+                    ))}
+                    </div>
+                  )}
+
+              {activeTab === "events" && (
+  <div className="grid md:grid-cols-2 gap-4">
+    {allEvents
+      .filter(event =>
+        ["Islamic Finance Workshop", "Youth Quran Competition"].includes(event.title)
+      )
+      .map(event => (
+        <EventCard key={event.id} {...event} />
+      ))}
+  </div>
+)}
+
             </div>
           </div>
         </main>
