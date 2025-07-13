@@ -16,6 +16,7 @@ import iftarImg from "@/assets/iftar.jpg";
 import TagInputDialog from "@/components/TagInputDialog";
 import { Link } from 'react-router-dom';
 import { useProfileStore } from '@/stores/profileStore';
+import { useEventInterestStore } from '@/stores/eventInterestStore';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"posts" | "groups" | "events">("posts");
@@ -23,6 +24,7 @@ const Profile = () => {
   
   // Get state and actions from Zustand store
   const { name, bio, profileImage, tags, setName, setBio, setProfileImage, setTags } = useProfileStore();
+  const { getInterestedEvents } = useEventInterestStore();
   
   // Local editing states
   const [isEditingName, setIsEditingName] = useState(false);
@@ -369,16 +371,36 @@ const Profile = () => {
 
 
               {activeTab === "events" && (
-  <div className="grid md:grid-cols-2 gap-4">
-    {allEvents
-      .filter(event =>
-        ["Islamic Finance Workshop", "Youth Quran Competition"].includes(event.title)
-      )
-      .map(event => (
-        <EventCard key={event.id} {...event} />
-      ))}
-  </div>
-)}
+                <div className="space-y-4">
+                  {(() => {
+                    const interestedEventIds = getInterestedEvents();
+                    const interestedEvents = allEvents.filter(event => 
+                      interestedEventIds.includes(event.id)
+                    );
+                    
+                    if (interestedEvents.length === 0) {
+                      return (
+                        <div className="text-center py-8">
+                          <div className="text-muted-foreground mb-2">
+                            You haven't shown interest in any events yet
+                          </div>
+                          <p className="text-sm text-muted-foreground">
+                            Browse events and click "Interested" to see them here
+                          </p>
+                        </div>
+                      );
+                    }
+                    
+                    return (
+                      <div className="grid md:grid-cols-2 gap-4">
+                        {interestedEvents.map(event => (
+                          <EventCard key={event.id} {...event} />
+                        ))}
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
 
             </div>
           </div>

@@ -2,7 +2,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Users, Clock, Share2, ChevronLeft } from 'lucide-react';
+import { Calendar, MapPin, Users, Clock, Share2, ChevronLeft, Heart } from 'lucide-react';
+import { useEventInterestStore } from '@/stores/eventInterestStore';
+import { useToast } from '@/hooks/useToast';
+import { useState } from 'react';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import EventCard from '@/components/EventCard';
@@ -35,6 +38,9 @@ interface Event {
 const EventDetail = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
+  const { isInterestedInEvent, addInterestedEvent, removeInterestedEvent } = useEventInterestStore();
+  const { showSuccess, showError } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -129,7 +135,41 @@ const EventDetail = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <Button className="flex-1">Interested</Button>
+                  <Button 
+                    className={`flex-1 flex items-center gap-2 transition-all duration-200 ${
+                      isInterestedInEvent(eventId || '') 
+                        ? 'bg-green-600 hover:bg-green-700 text-white' 
+                        : ''
+                    }`}
+                    disabled={isLoading}
+                    onClick={async () => {
+                      if (!eventId || isLoading) return;
+                      
+                      setIsLoading(true);
+                      try {
+                        const isInterested = isInterestedInEvent(eventId);
+                        
+                        if (isInterested) {
+                          removeInterestedEvent(eventId);
+                          showSuccess("Removed from interested events");
+                        } else {
+                          addInterestedEvent(eventId);
+                          showSuccess("Added to interested events");
+                        }
+                      } catch (error) {
+                        showError("Failed to update interest status");
+                      } finally {
+                        setIsLoading(false);
+                      }
+                    }}
+                  >
+                    <Heart 
+                      className={`w-4 h-4 ${
+                        isInterestedInEvent(eventId || '') ? 'fill-current' : ''
+                      }`} 
+                    />
+                    {isLoading ? 'Updating...' : isInterestedInEvent(eventId || '') ? 'Interested' : 'Interested'}
+                  </Button>
                   <Button variant="outline" className="flex items-center gap-2">
                     <Share2 className="h-4 w-4" />
                     Share

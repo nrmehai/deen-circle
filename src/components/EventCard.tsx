@@ -1,9 +1,12 @@
-import { Calendar, MapPin, Users, Clock } from "lucide-react";
+import { Calendar, MapPin, Users, Clock, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import TagBadge from "@/components/TagBadge";
+import { useEventInterestStore } from "@/stores/eventInterestStore";
+import { useToast } from "@/hooks/useToast";
+import { useState } from "react";
 
 interface EventCardProps {
   id?: string;
@@ -33,6 +36,9 @@ const EventCard = ({
   tags
 }: EventCardProps) => {
   const navigate = useNavigate();
+  const { isInterestedInEvent, addInterestedEvent, removeInterestedEvent } = useEventInterestStore();
+  const { showSuccess, showError } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const getCategoryColor = () => {
     switch (category) {
@@ -57,9 +63,28 @@ const EventCard = ({
     navigate(`/events/${id}`);
   };
 
-  const handleInterestClick = (e: React.MouseEvent) => {
+  const handleInterestClick = async (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent card click when clicking the button
-    navigate(`/events/${id}`);
+    
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    
+    try {
+      const isInterested = isInterestedInEvent(id);
+      
+      if (isInterested) {
+        removeInterestedEvent(id);
+        showSuccess("Removed from interested events");
+      } else {
+        addInterestedEvent(id);
+        showSuccess("Added to interested events");
+      }
+    } catch (error) {
+      showError("Failed to update interest status");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -111,10 +136,21 @@ const EventCard = ({
         <div className="mt-4 flex justify-between items-center">
           <span className="text-sm font-medium">{organizer}</span>
           <Button 
-            variant="secondary"
+            variant={isInterestedInEvent(id) ? "default" : "secondary"}
             onClick={handleInterestClick}
+            disabled={isLoading}
+            className={`flex items-center gap-2 transition-all duration-200 ${
+              isInterestedInEvent(id) 
+                ? 'bg-green-600 hover:bg-green-700 text-white' 
+                : ''
+            }`}
           >
-            Interested
+            <Heart 
+              className={`w-4 h-4 ${
+                isInterestedInEvent(id) ? 'fill-current' : ''
+              }`} 
+            />
+            {isLoading ? 'Updating...' : isInterestedInEvent(id) ? 'Interested' : 'Interested'}
           </Button>
         </div>
       </div>
