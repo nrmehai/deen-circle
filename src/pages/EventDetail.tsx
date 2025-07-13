@@ -13,6 +13,7 @@ import iftarImg from '@/assets/iftar.jpg';
 import quranImg from '@/assets/quran.jpg';
 import { allEvents } from './Events';
 import TagBadge from "@/components/TagBadge";
+import { useEffect } from "react";
 
 interface Event {
   id: string;
@@ -34,6 +35,10 @@ interface Event {
 const EventDetail = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [eventId]);
 
   // Find the event by id from the imported allEvents array
   const event = allEvents.find(e => e.id === eventId);
@@ -76,7 +81,7 @@ const EventDetail = () => {
           <div className="container mx-auto">
             {/* Breadcrumb */}
             <div className="mb-6">
-              <Button variant="ghost" className="flex items-center gap-2" onClick={() => window.history.back()}>
+              <Button variant="ghost" className="flex items-center gap-2" onClick={() => navigate('/events')}>
                 <ChevronLeft className="h-4 w-4" />
                 Back to Events
               </Button>

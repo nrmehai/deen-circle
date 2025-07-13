@@ -9,6 +9,8 @@ import mosqueImg from "@/assets/mosque.jpg";
 import financeImg from "@/assets/finnances.jpg";
 import iftarImg from "@/assets/iftar.jpg";
 import quranImg from "@/assets/quran.jpg";
+import TagBadge from "@/components/TagBadge";
+import { useState } from "react";
 
 export const allEvents = [
   {
@@ -78,6 +80,18 @@ export const allEvents = [
 ];
 
 const Events = () => {
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  // Extract all unique tags from allEvents
+  const allTags = Array.from(new Set(allEvents.flatMap(e => e.tags || [])));
+  // Filter events by selected tags
+  const filteredEvents = !selectedTag
+    ? allEvents
+    : allEvents.filter(event => event.tags?.includes(selectedTag));
+
+  const toggleTag = (tag: string) => {
+    setSelectedTag(selectedTag === tag ? null : tag);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-peaceful">
       <Header />
@@ -113,8 +127,21 @@ const Events = () => {
               </Button>
             </div>
           </div>
+          {/* Tag Filter UI */}
+          <div className="mb-4 flex flex-wrap gap-2">
+            {allTags.map(tag => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => toggleTag(tag)}
+                className="focus:outline-none"
+              >
+                <TagBadge tag={tag} selected={selectedTag === tag} />
+              </button>
+            ))}
+          </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {allEvents.map((event) => (
+            {filteredEvents.map((event) => (
               <EventCard key={event.id} {...event} />
             ))}
           </div>

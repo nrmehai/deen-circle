@@ -11,9 +11,11 @@ import mosqueImg from "@/assets/mosque.jpg";
 import financeImg from "@/assets/finnances.jpg";
 import quranImg from "@/assets/quran.jpg";
 import iftarImg from "@/assets/iftar.jpg";
+import TagInput from "@/components/TagInput";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<"posts" | "groups" | "events">("posts");
+  const [tags, setTags] = useState<string[]>(["youth", "charity"]);
   const allEvents = [
     {
       id: '1',
@@ -138,6 +140,11 @@ const Profile = () => {
                 <div className="flex gap-4 text-sm text-muted-foreground">
                   <span>Friends: <strong>42</strong></span>
                   <span>Groups: <strong>3</strong></span>
+                </div>
+                {/* Tag Management */}
+                <div className="mt-2">
+                  <span className="block text-sm font-medium mb-1">My Interests/Tags:</span>
+                  <TagInput value={tags} onChange={setTags} suggestions={["youth", "charity", "education", "prayer", "iftar", "finance", "community", "quran", "competition", "workshop", "ramadan"]} />
                 </div>
               </div>
             </div>
