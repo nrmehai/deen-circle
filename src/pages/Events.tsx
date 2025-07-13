@@ -160,6 +160,7 @@ const communitiesList = [
 ];
 
 const Events = () => {
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [form, setForm] = useState({
@@ -179,9 +180,11 @@ const Events = () => {
   // Extract all unique tags from allEvents
   const allTags = Array.from(new Set(events.flatMap(e => e.tags || [])));
   // Filter events by selected tags
-  const filteredEvents = !selectedTag
-    ? events
-    : events.filter(event => event.tags?.includes(selectedTag));
+  const filteredEvents = events.filter(event => {
+    const matchesTag = selectedTag ? event.tags?.includes(selectedTag) : true;
+    const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTag && matchesSearch;
+  });
 
   const toggleTag = (tag: string) => {
     setSelectedTag(selectedTag === tag ? null : tag);
@@ -252,21 +255,16 @@ const Events = () => {
               </Button>
             </div>
             <div className="flex gap-4 mb-6">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search events..."
-                  className="pl-10 bg-card border-border"
-                />
-              </div>
-              <Button variant="outline" className="whitespace-nowrap">
-                <Filter className="w-4 h-4 mr-2" />
-                Filter
-              </Button>
-              <Button variant="outline" className="whitespace-nowrap">
-                <Calendar className="w-4 h-4 mr-2" />
-                Calendar View
-              </Button>
+              {/* Updated Search Bar */}
+            <div className="mb-4 flex items-center gap-2">
+              <Search className="w-4 h-4 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search Events..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             </div>
           </div>
           {/* Tag Filter UI */}

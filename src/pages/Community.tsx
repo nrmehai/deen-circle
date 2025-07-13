@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { createContext, useContext, useState } from "react";
 
 const Community = () => {
+  const [searchQuery, setSearchQuery] = useState('');
   const [communities, setCommunities] = useState([
     {
       name: "Islamic Center of Maryland",
@@ -63,9 +64,11 @@ const Community = () => {
     setSelectedTag(selectedTag === tag ? null : tag);
   };
 
-  const filteredCommunities = !selectedTag
-    ? communities
-    : communities.filter(c => c.tags?.includes(selectedTag));
+  const filteredCommunities = communities.filter(c => {
+    const matchesTag = selectedTag ? c.tags?.includes(selectedTag) : true;
+    const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTag && matchesSearch;
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -99,10 +102,21 @@ const Community = () => {
                 <h1 className="text-3xl font-bold text-foreground mb-2">Communities</h1>
                 <p className="text-muted-foreground">Discover communities that are perfect for you!</p>
               </div>
+              
               <Button className="bg-gradient-primary hover:bg-gradient-primary/90" onClick={() => setOpen(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 Create Community
               </Button>
+            </div>
+            {/* Search Bar */}
+            <div className="mb-4 flex items-center gap-2">
+              <Search className="h-4 w-4 text-muted-foreground"/>
+              <Input
+                type="text"
+                placeholder="Search Communities..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
 
             <div className="mb-4 flex flex-wrap gap-2">
