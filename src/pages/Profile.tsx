@@ -13,7 +13,7 @@ import mosqueImg from "@/assets/mosque.jpg";
 import financeImg from "@/assets/finnances.jpg";
 import quranImg from "@/assets/quran.jpg";
 import iftarImg from "@/assets/iftar.jpg";
-import TagInput from "@/components/TagInput";
+import TagInputDialog from "@/components/TagInputDialog";
 import { Link } from 'react-router-dom';
 import { useProfileStore } from '@/stores/profileStore';
 
@@ -320,7 +320,7 @@ const Profile = () => {
                 {/* Tag Management */}
                 <div className="mt-2">
                   <span className="block text-sm font-medium mb-1">My Interests/Tags:</span>
-                  <TagInput value={tags} onChange={setTags} suggestions={["youth", "charity", "education", "prayer", "iftar", "finance", "community", "quran", "competition", "workshop", "ramadan"]} />
+                  <TagInputDialog value={tags} onChange={setTags} suggestions={["youth", "charity", "education", "prayer", "iftar", "finance", "community", "quran", "competition", "workshop", "ramadan"]} />
                 </div>
               </div>
             </div>
