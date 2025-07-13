@@ -14,61 +14,6 @@ import quranImg from "@/assets/quran.jpg";
 const Community = () => {
   const Communities = [
     {
-<<<<<<< HEAD
-      title: "Friday Jummah Prayer",
-      description: "Weekly congregation prayer with khutbah by Imam Abdullah",
-      date: "December 15, 2024",
-      time: "1:00 PM - 2:00 PM",
-      location: "Masjid Al-Noor, 123 Main St",
-      organizer: "Masjid Al-Noor",
-      attendees: 234,
-      category: "prayer" as const,
-      image: mosqueImg
-    },
-    {
-      title: "Islamic Finance Workshop",
-      description: "Learn about halal investment strategies and Islamic banking principles",
-      date: "December 18, 2024",
-      time: "7:00 PM - 9:00 PM",
-      location: "Community Center Hall",
-      organizer: "Islamic Business Association",
-      attendees: 67,
-      category: "education" as const,
-      image: financeImg
-    },
-    {
-      title: "Charity Drive for Refugees",
-      description: "Collecting winter clothes and essential items for refugee families",
-      date: "December 20, 2024",
-      time: "10:00 AM - 4:00 PM",
-      location: "Multiple locations",
-      organizer: "Ummah Care Foundation",
-      attendees: 156,
-      category: "charity" as const,
-      image: iftarImg
-    },
-    {
-      title: "Youth Islamic Study Circle",
-      description: "Weekly Quran study and discussion for young Muslims",
-      date: "December 22, 2024",
-      time: "6:00 PM - 8:00 PM",
-      location: "Islamic Center Youth Room",
-      organizer: "Youth Committee",
-      attendees: 45,
-      category: "education" as const,
-      image: quranImg
-    },
-    {
-      title: "Community Iftar Planning",
-      description: "Planning meeting for upcoming Ramadan community iftar events",
-      date: "December 25, 2024",
-      time: "7:30 PM - 9:00 PM",
-      location: "Masjid Conference Room",
-      organizer: "Community Board",
-      attendees: 23,
-      category: "community" as const,
-      image: iftarImg
-=======
       name: "Islamic Center of Maryland",
       description: "A Masjid located in Gaithersburg Maryland",
       location: "Gaithersburg",
@@ -78,7 +23,7 @@ const Community = () => {
     },
     {
       name: "UMD MSA",
-      description: "Muslim Student Assocciation at the University of Maryland!",
+      description: "Muslim Student Association at the University of Maryland!",
       location: "University of Maryland",
       attendees: 2701,
       image: "https://images.squarespace-cdn.com/content/v1/5a8b30b42278e78aeffd315f/6dbf46f1-d4cc-4650-a415-e195d5173030/logo.png",
@@ -91,7 +36,6 @@ const Community = () => {
       attendees: 78,
       image: "https://ymsite.com/wp-content/uploads/2023/07/YM-Favicon.png",
       category: "youth organization" as const
->>>>>>> 30ae34f2541542b67f099eed0587e1cb8f34cc08
     }
   ];
 
