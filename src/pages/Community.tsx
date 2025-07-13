@@ -5,6 +5,10 @@ import { Calendar, Filter, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import mosqueImg from "@/assets/mosque.jpg";
+import financeImg from "@/assets/finnances.jpg";
+import iftarImg from "@/assets/iftar.jpg";
+import quranImg from "@/assets/quran.jpg";
 
 const Community = () => {
   const allEvents = [
@@ -16,7 +20,8 @@ const Community = () => {
       location: "Masjid Al-Noor, 123 Main St",
       organizer: "Masjid Al-Noor",
       attendees: 234,
-      category: "prayer" as const
+      category: "prayer" as const,
+      image: mosqueImg
     },
     {
       title: "Islamic Finance Workshop",
@@ -26,7 +31,8 @@ const Community = () => {
       location: "Community Center Hall",
       organizer: "Islamic Business Association",
       attendees: 67,
-      category: "education" as const
+      category: "education" as const,
+      image: financeImg
     },
     {
       title: "Charity Drive for Refugees",
@@ -36,7 +42,8 @@ const Community = () => {
       location: "Multiple locations",
       organizer: "Ummah Care Foundation",
       attendees: 156,
-      category: "charity" as const
+      category: "charity" as const,
+      image: iftarImg
     },
     {
       title: "Youth Islamic Study Circle",
@@ -46,7 +53,8 @@ const Community = () => {
       location: "Islamic Center Youth Room",
       organizer: "Youth Committee",
       attendees: 45,
-      category: "education" as const
+      category: "education" as const,
+      image: quranImg
     },
     {
       title: "Community Iftar Planning",
@@ -56,7 +64,8 @@ const Community = () => {
       location: "Masjid Conference Room",
       organizer: "Community Board",
       attendees: 23,
-      category: "community" as const
+      category: "community" as const,
+      image: iftarImg
     }
   ];
 

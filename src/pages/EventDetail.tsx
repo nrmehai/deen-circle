@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,6 +6,11 @@ import { Calendar, MapPin, Users, Clock, Share2, ChevronLeft } from 'lucide-reac
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import EventCard from '@/components/EventCard';
+import heroImage from '@/assets/hero-islamic.jpg';
+import mosqueImg from '@/assets/mosque.jpg';
+import financeImg from '@/assets/finnances.jpg';
+import iftarImg from '@/assets/iftar.jpg';
+import quranImg from '@/assets/quran.jpg';
 
 interface Event {
   id: string;
@@ -25,6 +30,7 @@ interface Event {
 
 const EventDetail = () => {
   const { eventId } = useParams();
+  const navigate = useNavigate();
 
   // Mock event data - In a real app, this would come from an API
   const event: Event = {
@@ -38,10 +44,50 @@ const EventDetail = () => {
     organizationLogo: '/placeholder.svg',
     attendees: 234,
     category: 'prayer',
-    image: '/placeholder.svg',
+    image: mosqueImg, // imported mosque image
     interestedFriends: ['Ahmed', 'Fatima', 'Omar'],
     relatedEvents: ['2', '3', '4']
   };
+
+  // Mock related events data
+  const relatedEvents = [
+    {
+      id: '2',
+      title: 'Islamic Finance Workshop',
+      description: 'Learn about halal investment strategies',
+      date: 'December 18, 2024',
+      time: '7:00 PM - 9:00 PM',
+      location: 'Community Center Hall',
+      organizer: 'Islamic Business Association',
+      attendees: 120,
+      category: 'education',
+      image: financeImg, // imported finance image
+    },
+    {
+      id: '3',
+      title: 'Community Iftar Gathering',
+      description: 'Join us for a blessed community iftar during Ramadan',
+      date: 'March 15, 2024',
+      time: '6:45 PM - 8:30 PM',
+      location: 'Masjid Al-Noor Main Hall',
+      organizer: 'Community Volunteers',
+      attendees: 156,
+      category: 'community',
+      image: iftarImg, // imported iftar image
+    },
+    {
+      id: '4',
+      title: 'Youth Quran Competition',
+      description: 'Annual Quran recitation and memorization competition for youth',
+      date: 'January 20, 2024',
+      time: '10:00 AM - 4:00 PM',
+      location: 'Islamic Education Center',
+      organizer: 'Youth Islamic Society',
+      attendees: 45,
+      category: 'education',
+      image: quranImg, // imported Quran image
+    }
+  ];
 
   const getCategoryColor = (category: Event['category']) => {
     const colors = {
@@ -153,19 +199,12 @@ const EventDetail = () => {
             <div>
               <h2 className="text-xl font-semibold mb-4">Similar Events</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Mock related events - In a real app, these would be filtered based on category/tags */}
-                {[1, 2, 3].map((_, index) => (
-                  <EventCard
-                    key={index}
-                    title="Islamic Finance Workshop"
-                    description="Learn about halal investment strategies"
-                    date="December 18, 2024"
-                    time="7:00 PM - 9:00 PM"
-                    location="Community Center Hall"
-                    organizer="Islamic Business Association"
-                    attendees={120}
-                    category="education"
-                  />
+                {relatedEvents.map((relatedEvent) => (
+                  <div key={relatedEvent.id} onClick={() => navigate(`/events/${relatedEvent.id}`)} style={{ cursor: 'pointer' }}>
+                    <EventCard
+                      {...relatedEvent}
+                    />
+                  </div>
                 ))}
               </div>
             </div>
