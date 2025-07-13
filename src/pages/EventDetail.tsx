@@ -17,7 +17,7 @@ interface Event {
   organizer: string;
   organizationLogo?: string;
   attendees: number;
-  category: 'prayer' | 'lecture' | 'social' | 'charity' | 'education' | 'community';
+  category: 'prayer' | 'lecture' | 'social' | 'charity' | 'education' | 'community' | 'masjid' | 'youth organization' | 'student organization';
   image?: string;
   interestedFriends: string[];
   relatedEvents: string[];

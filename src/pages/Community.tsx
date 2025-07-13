@@ -4,59 +4,34 @@ import EventCard from "@/components/EventCard";
 import { Calendar, Filter, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import CommunityCard from "@/components/CommunityCard"
 import { Card } from "@/components/ui/card";
 
 const Community = () => {
-  const allEvents = [
+  const Communities = [
     {
-      title: "Friday Jummah Prayer",
-      description: "Weekly congregation prayer with khutbah by Imam Abdullah",
-      date: "December 15, 2024",
-      time: "1:00 PM - 2:00 PM",
-      location: "Masjid Al-Noor, 123 Main St",
-      organizer: "Masjid Al-Noor",
-      attendees: 234,
-      category: "prayer" as const
+      name: "Islamic Center of Maryland",
+      description: "A Masjid located in Gaithersburg Maryland",
+      location: "Gaithersburg",
+      attendees: 11932,
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb6AofKf1cqE7Y4bl_FtQ5v1vUffdMGeQsEw&s",
+      category: "masjid" as const
     },
     {
-      title: "Islamic Finance Workshop",
-      description: "Learn about halal investment strategies and Islamic banking principles",
-      date: "December 18, 2024",
-      time: "7:00 PM - 9:00 PM",
-      location: "Community Center Hall",
-      organizer: "Islamic Business Association",
-      attendees: 67,
-      category: "education" as const
+      name: "UMD MSA",
+      description: "Muslim Student Assocciation at the University of Maryland!",
+      location: "University of Maryland",
+      attendees: 2701,
+      image: "https://images.squarespace-cdn.com/content/v1/5a8b30b42278e78aeffd315f/6dbf46f1-d4cc-4650-a415-e195d5173030/logo.png",
+      category: "student organization" as const
     },
     {
-      title: "Charity Drive for Refugees",
-      description: "Collecting winter clothes and essential items for refugee families",
-      date: "December 20, 2024",
-      time: "10:00 AM - 4:00 PM",
-      location: "Multiple locations",
-      organizer: "Ummah Care Foundation",
-      attendees: 156,
-      category: "charity" as const
-    },
-    {
-      title: "Youth Islamic Study Circle",
-      description: "Weekly Quran study and discussion for young Muslims",
-      date: "December 22, 2024",
-      time: "6:00 PM - 8:00 PM",
-      location: "Islamic Center Youth Room",
-      organizer: "Youth Committee",
-      attendees: 45,
-      category: "education" as const
-    },
-    {
-      title: "Community Iftar Planning",
-      description: "Planning meeting for upcoming Ramadan community iftar events",
-      date: "December 25, 2024",
-      time: "7:30 PM - 9:00 PM",
-      location: "Masjid Conference Room",
-      organizer: "Community Board",
-      attendees: 23,
-      category: "community" as const
+      name: "YM Gaithersburg",
+      description: "An organization located in Gaithersburg that works on building Muslim identity for the youth",
+      location: "Islamic Center of Maryland",
+      attendees: 78,
+      image: "https://ymsite.com/wp-content/uploads/2023/07/YM-Favicon.png",
+      category: "youth organization" as const
     }
   ];
 
@@ -72,12 +47,12 @@ const Community = () => {
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-3xl font-bold text-foreground mb-2">Community Events</h1>
-                <p className="text-muted-foreground">Discover and join Islamic events in your community</p>
+                <h1 className="text-3xl font-bold text-foreground mb-2">Communities</h1>
+                <p className="text-muted-foreground">Discover communities that are perfect for you!</p>
               </div>
               <Button className="bg-gradient-primary hover:bg-gradient-primary/90">
                 <Plus className="w-4 h-4 mr-2" />
-                Create Event
+                Create Community
               </Button>
             </div>
 
@@ -86,7 +61,7 @@ const Community = () => {
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input 
-                  placeholder="Search events..." 
+                  placeholder="Search communities..." 
                   className="pl-10 bg-card border-border"
                 />
               </div>
@@ -103,15 +78,16 @@ const Community = () => {
 
           {/* Events Grid */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {allEvents.map((event, index) => (
-              <EventCard key={index} {...event} />
+          {Communities.map((community, index) => (
+            <CommunityCard key={index} {...community} />
             ))}
+
           </div>
 
           {/* Load More */}
           <div className="text-center mt-8">
             <Button variant="outline">
-              Load More Events
+              Load More Communities
             </Button>
           </div>
         </main>

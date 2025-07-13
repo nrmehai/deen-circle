@@ -41,7 +41,7 @@ const Charity = () => {
         <main className="flex-1 p-6">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-foreground mb-2">Charity & Giving</h1>
+              <h1 className="text-3xl font-bold text-foreground mb-2">Donation</h1>
               <p className="text-muted-foreground">Support your community through charitable giving and volunteer work</p>
             </div>
 

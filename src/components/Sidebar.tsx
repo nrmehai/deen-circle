@@ -23,9 +23,8 @@ const Sidebar = () => {
     { icon: Calendar, label: "Events", path: "/events" },
     { icon: Users, label: "Community", path: "/community" },
     { icon: BookOpen, label: "Learning", path: "/learning" },
-    { icon: Heart, label: "Charity", path: "/charity" },
+    { icon: Heart, label: "Donation", path: "/charity" },
     { icon: MessageCircle, label: "Messages", path: "/messages" },
-    { icon: Compass, label: "Discover", path: "/discover" },
   ];
 
   const prayerTimes = [
