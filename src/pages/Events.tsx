@@ -195,7 +195,7 @@ const Events = () => {
             </div>
           </div>
           {/* Tag Filter UI */}
-          <div className="mb-4 mt-1 overflow-x-auto custom-scrollbar">
+          <div className="mb-4 mt-1 overflow-x-auto hide-scrollbar">
             <div className="flex flex-nowrap gap-2 min-w-max">
               {allTags.map(tag => (
                 <button
@@ -221,6 +221,15 @@ const Events = () => {
           </div>
         </main>
       </div>
+      <style>{`
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+`}</style>
     </div>
   );
 };
