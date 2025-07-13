@@ -70,11 +70,12 @@ const Header = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
-                <Moon className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <h1 className="text-xl font-bold text-foreground">Deen Circle</h1>
-            </div>
+              <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center overflow-hidden">
+                <img src="src/assets/DeenCircleLogo.png" alt="Deen Circle Logo" className="w-full h-full object-contain" />
+                </div>
+                <h1 className="text-xl font-bold text-foreground">Deen Circle</h1>
+                </div>
+
 
             {/* Search Bar */}
             <div className="hidden md:flex items-center space-x-4 flex-1 max-w-md mx-8">
