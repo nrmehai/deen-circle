@@ -15,10 +15,12 @@ import Community from "./pages/Community";
 import Profile from "./pages/Profile";
 import CommunityPage from "./pages/CommunityPage";
 import CoursePage from "./pages/CoursePage";
+import { createContext, useContext, useState } from "react";
 
 const queryClient = new QueryClient();
 
 const App = () => (
+  
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />

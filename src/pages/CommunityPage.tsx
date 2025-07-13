@@ -60,6 +60,14 @@ const upcomingEvents = [
       date: 'July 21, 2025',
       time: '6:00 PM',
       location: 'Islamic Center of Maryland',
+    },
+    {
+      id: '4',
+      communitySlug: 'untitled',
+      title: 'Untitled',
+      date: 'July 17, 2025',
+      time: '5:00 PM',
+      location: '',
     }
   ];
   
@@ -68,16 +76,13 @@ const upcomingEvents = [
     const navigate = useNavigate();
   
     const community = Communities.find(c => c.slug === slug);
-  
+    var communityEvents
     if (!community) {
-      return (
-        <div className="p-6">
-          <h1 className="text-2xl font-bold">Community Not Found</h1>
-        </div>
-      );
+      communityEvents = upcomingEvents[3]
     }
-  
-    const communityEvents = upcomingEvents.filter(e => e.communitySlug === community.slug);
+    else{
+        communityEvents = upcomingEvents.filter(e => e.communitySlug === community.slug);
+    }
   
     return (
       <div className="min-h-screen bg-background">

@@ -18,7 +18,7 @@ const Index = () => {
     {
       id: 1,
       name: "Amina",
-      profilePicture: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&crop=face",
+      profilePicture: "https://torange.biz/photofxnew/21/HD/image-profile-picture-flower-trade-21151.webp",
       event: {
         title: "Finance Workshop",
         image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=150&h=150&fit=crop"
@@ -27,7 +27,7 @@ const Index = () => {
     {
       id: 2,
       name: "Omar",
-      profilePicture: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
+      profilePicture: "https://media.istockphoto.com/id/1458836233/photo/side-view-of-bearded-arab-businessman-looking-into-distance-on-pavement.jpg?s=612x612&w=0&k=20&c=74568GQrPgqWT0V5nRlmX6cHJgVhe9JLd-qOPcgT7ck=",
       event: {
         title: "Quran Study Circle",
         image: "https://images.unsplash.com/photo-1585036156171-384164a8c675?w=150&h=150&fit=crop"
@@ -36,7 +36,7 @@ const Index = () => {
     {
       id: 3,
       name: "Fatima",
-      profilePicture: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
+      profilePicture: "https://i.pinimg.com/736x/5a/b1/18/5ab118f3146c4c6f0e6428c71f5cf2df.jpg",
       event: {
         title: "Charity Drive",
         image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=150&h=150&fit=crop"
@@ -45,7 +45,7 @@ const Index = () => {
     {
       id: 4,
       name: "Ahmed",
-      profilePicture: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
+      profilePicture: "https://www.neon-entertainment.com/wp-content/uploads/2022/12/Website-Page-Images-3.jpg",
       event: {
         title: "Iftar Gathering",
         image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=150&h=150&fit=crop"
@@ -53,15 +53,6 @@ const Index = () => {
     },
     {
       id: 5,
-      name: "Zainab",
-      profilePicture: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop&crop=face",
-      event: {
-        title: "Prayer Circle",
-        image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=150&h=150&fit=crop"
-      }
-    },
-    {
-      id: 6,
       name: "Hassan",
       profilePicture: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
       event: {
@@ -70,16 +61,16 @@ const Index = () => {
       }
     },
     {
-      id: 7,
+      id: 6,
       name: "Layla",
-      profilePicture: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=300&fit=crop&crop=face",
+      profilePicture: "https://img.freepik.com/premium-vector/vector-beautiful-muslim-girl-sitting-moon-cartoon-icon-vector-illustration-religious-icon_844724-2731.jpg?w=360",
       event: {
         title: "Community Dinner",
         image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=150&h=150&fit=crop"
       }
     },
     {
-      id: 8,
+      id: 7,
       name: "Yusuf",
       profilePicture: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&crop=face",
       event: {
@@ -247,10 +238,6 @@ const Index = () => {
             <div className="lg:col-span-3 space-y-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-bold text-foreground">Community Feed</h2>
-                <Button variant="ghost" size="lg">
-                  <TrendingUp className="w-5 h-5 mr-2" />
-                  Trending
-                </Button>
               </div>
               
               {samplePosts.map((post, index) => (

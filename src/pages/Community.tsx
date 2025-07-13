@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import CommunityCard from "@/components/CommunityCard";
@@ -10,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { createContext, useContext, useState } from "react";
 
 const Community = () => {
   const [communities, setCommunities] = useState([
