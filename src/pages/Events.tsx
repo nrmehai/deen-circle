@@ -11,6 +11,9 @@ import iftarImg from "@/assets/iftar.jpg";
 import quranImg from "@/assets/quran.jpg";
 import TagBadge from "@/components/TagBadge";
 import { useState } from "react";
+import basketballImg from "@/assets/basketball.jpg";
+import bakingImg from "@/assets/baking.jpg";
+import hackImg from "@/assets/hack.jpg";
 
 export const allEvents = [
   {
@@ -89,7 +92,7 @@ export const allEvents = [
     organizationLogo: '/placeholder.svg',
     attendees: 30,
     category: "community" as const,
-    image: mosqueImg,
+    image: basketballImg,
     interestedFriends: ['Ali', 'Omar'],
     relatedEvents: ['1', '2', '3'],
     tags: [
@@ -111,7 +114,7 @@ export const allEvents = [
     organizationLogo: '/placeholder.svg',
     attendees: 18,
     category: "community" as const,
-    image: iftarImg,
+    image: bakingImg,
     interestedFriends: ['Amina', 'Sara'],
     relatedEvents: ['1', '2', '3'],
     tags: [
@@ -132,7 +135,7 @@ export const allEvents = [
     organizationLogo: '/placeholder.svg',
     attendees: 60,
     category: "education" as const,
-    image: financeImg,
+    image: hackImg,
     interestedFriends: ['Yusuf', 'Maryam'],
     relatedEvents: ['1', '2', '3'],
     tags: [
