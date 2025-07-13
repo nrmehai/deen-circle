@@ -6,9 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const CreatePost = () => {
   const postTypes = [
-    { icon: Heart, label: "Dua", type: "dua", color: "text-accent" },
-    { icon: BookOpen, label: "Verse", type: "verse", color: "text-primary" },
-    { icon: Calendar, label: "Event", type: "event", color: "text-destructive" },
+    { icon: Calendar, label: "Event", type: "event", color: "text-destructive" }
   ];
 
   return (
@@ -42,7 +40,7 @@ const CreatePost = () => {
             ))}
             <Button variant="ghost" size="sm" className="text-muted-foreground hover:bg-muted">
               <Image className="w-4 h-4 mr-2" />
-              Photo
+              Add Image
             </Button>
           </div>
           

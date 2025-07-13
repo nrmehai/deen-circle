@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import CommunityCard from "@/components/CommunityCard"
 import { Card } from "@/components/ui/card";
+import { Link } from "react-router-dom";
+
 
 const Community = () => {
   const Communities = [
@@ -78,11 +80,14 @@ const Community = () => {
 
           {/* Events Grid */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Communities.map((community, index) => (
-            <CommunityCard key={index} {...community} />
-            ))}
-
-          </div>
+            {Communities.map((community, index) => (
+              <Link
+              key={index}
+              to={`/community/${encodeURIComponent(community.name.replace(/\s+/g, '-').toLowerCase())}`}>
+              <CommunityCard {...community} />
+              </Link>            
+              ))}
+              </div>
 
           {/* Load More */}
           <div className="text-center mt-8">

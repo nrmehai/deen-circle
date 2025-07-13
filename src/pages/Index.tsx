@@ -19,7 +19,6 @@ const Index = () => {
       },
       content: {
         text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ\n\n'Our Lord, give us good in this world and good in the hereafter, and save us from the punishment of the Fire.' - A beautiful dua to recite daily.",
-        type: "dua" as const
       },
       timestamp: "2 hours ago",
       likes: 142,
