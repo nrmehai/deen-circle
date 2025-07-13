@@ -2,6 +2,7 @@ import { Moon, User, Bell, Search, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LocationPicker } from "./LocationPicker";
+import DeenCircleLogo from '@/assets/DeenCircleLogo.png';
 import * as React from "react";
 
 const Header = () => {
@@ -71,7 +72,7 @@ const Header = () => {
             {/* Logo */}
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center overflow-hidden">
-                <img src="src/assets/DeenCircleLogo.png" alt="Deen Circle Logo" className="w-full h-full object-contain" />
+              <img src={DeenCircleLogo} alt="Deen Circle Logo" className="w-full h-full object-contain" />
                 </div>
                 <h1 className="text-xl font-bold text-foreground">Deen Circle</h1>
                 </div>
