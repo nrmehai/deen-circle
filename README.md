@@ -44,7 +44,7 @@ Users will have access to the following tools on Deen Circle:
 ### **Noor Mehai**
 - **Programmer**
 
-### **Mahi Nur**
+### **Mahinur Mahi**
 - **Prograammer**
 
 ## Problem Statement And Solution Approach
